@@ -1,0 +1,40 @@
+{
+  "id": "NAV-880",
+  "name": "NaviPore-880 (théorique de-novo)",
+  "type": "hybrid_teer_trans_mucus",
+  "origin": "inverse-design voie B",
+  "spec_minimale_viable": {
+    "denovo_p_trans": 8.0,
+    "denovo_p_para": 8.0,
+    "denovo_mucus": 2.94,
+    "m_hip": 32.0,
+    "note": "F 1.38% -> 88.83% (Cmax 28.1, AUC 144.9, Cmax/CMI 28 @CMI1) avec ces 3 mults. En-deçà, sous-thérapeutique (max réel actuel 18.6% Cmax 3.8)."
+  },
+  "traduction_mecanistique": {
+    "p_para 8x": "TEER 60 -> 7.5 Ω·cm2 (M_TEER 8). Actuel C10 50 + chit0.8 donne ~6x. Il manque ~1.3x = jonctions ouvertes à 88% vs 83% actuel.",
+    "p_trans 8x": "P_int0 x8 = +0.9 logD effectif. Actuel SNAC 40 + lipid0.85 + PIP10 donne ~3x. Il manque ~2.7x = chaperon transcellulaire plus fort que SNAC.",
+    "mucus 2.94x": "F_mucus 0.34 -> 1.0. Actuel particule 150nm zeta0 donne 0.34. Il faut <50nm + PEG corona + zeta ~0 (mucus-penetrating particle)."
+  },
+  "chimie_proposee": {
+    "scaffold": "N-acetyl-chitosane greffé PEG2000 (mucus) + SNAC-amide (trans) + domaine alkyl C12 (lipide/HIP)",
+    "concept": "nanoparticule cœur tobramycine-SDS (HIP 32) @150nm -> PEGylée 30nm corona -> surface chitosane-SNAC",
+    "pourquoi_ca_marche": "chitosane = TEER opener, PEG = mucus-penetrating, SNAC+C12 = chaperon trans + HIP, tout en 1 objet (pas 4 excipients séparés)",
+    "SMILES_placeholder": "Chitosan-(PEG2000)-SNAC-C12 (polymère, pas de SMILES unique)",
+    "MW_kDa": "~45",
+    "logP_effectif": "~1.5 (apporte +0.9 logD manquant)",
+    "dose_excipient_mg_par_dose_tobra_mg": "~150 mg excipient pour 500 mg tobra (ratio 0.3)"
+  },
+  "synthese_esquisse": [
+    "1. Chitosane 20kDa -> N-acetylation partielle 50% -> N-PEG2000-NHS (DS 10%)",
+    "2. Greffe SNAC via EDC/NHS sur amines restantes (DS 15%)",
+    "3. Tobramycine + SDS (HIP 32) -> nanoprécipitation dans Labrasol/Gelucire -> enrobage PEG-CS-SNAC",
+    "4. Taille cible DLS 45-60nm, zeta -5..+5 mV, EE >85%"
+  ],
+  "validation_prevue": {
+    "in_vitro": "Caco-2 TEER 60->8 (8x), Papp tobra +8x, mucus chip F_mucus 0.9",
+    "in_vivo_rat": "F oral 2% -> 35%+ attendu (échelle humaine ~88% modèle)",
+    "tox": "C10 48mM actuel déjà irritant; NaviPore vise même effet para avec 3x moins de C10 (remplacé par chitosane-PEG)"
+  },
+  "fichier_formulation_reference": "data/formulations/optimized/tobramycin_B_best.json",
+  "note_honnete": "Théorique. Le modèle dit que c'est la spec minimale qui rend la tobra orale thérapeutique. La synthèse et la tox restent à prouver. Voie A (Labrasol etc.) reste le plan B réaliste à 18.6% (non thérapeutique systémique mais local OK)."
+}

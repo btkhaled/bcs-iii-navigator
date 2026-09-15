@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BCS III NAVIGATOR — A4 Scientific Poster</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=JetBrains+Mono:wght@400;500&display=swap');
+  *{box-sizing:border-box}
+  @page{size:A4 portrait;margin:0}
+  html,body{margin:0;padding:0;background:#E9EEF3;color:#0B1426;font-family:Inter,system-ui,Helvetica,Arial,sans-serif}
+  .page{width:210mm;height:297mm;margin:0 auto;background:white;display:flex;flex-direction:column;overflow:hidden}
+  header{padding:8mm 9mm 5mm;border-bottom:2.2px solid #0B1426;flex:0 0 auto}
+  .topline{display:flex;justify-content:space-between;font-family:JetBrains Mono,monospace;font-size:6pt;letter-spacing:.13em;text-transform:uppercase;color:#5B6B82}
+  h1{margin:1.2mm 0 1mm;font-family:Source Serif 4,serif;font-size:22pt;letter-spacing:-.03em;line-height:.92}
+  h1 span{color:#0E7A6E}
+  .subtitle{font-size:8pt;line-height:1.5;color:#2B3A4F;max-width:100%}
+  .authors{margin-top:2mm;font-size:7pt;color:#5B6B82}
+  .authors b{color:#0B1426}
+  .body{flex:1;display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;background:#E6EAF0;min-height:0}
+  .col{background:white;display:flex;flex-direction:column;border-right:1px solid #E6EAF0}
+  .col:last-child{border-right:none}
+  .section{padding:3.6mm 4.2mm 3mm;border-bottom:1px solid #E6EAF0;flex:0 0 auto}
+  .section.grow{flex:1}
+  .section:last-child{border-bottom:none}
+  .kicker{font-family:JetBrains Mono,monospace;font-size:5.8pt;letter-spacing:.13em;text-transform:uppercase;color:#0E7A6E;margin:0 0 1.2mm;white-space:normal;word-break:break-word}
+  h2{margin:0 0 1mm;font-family:Source Serif 4,serif;font-size:9pt;letter-spacing:-.02em;line-height:1.15}
+  h2 em{font-style:normal;color:#0E7A6E}
+  .text{font-size:6.8pt;line-height:1.5;color:#2B3A4F}
+  .text b{color:#0B1426}
+  .mono{font-family:JetBrains Mono,monospace}
+  .eq{font-family:JetBrains Mono,monospace;font-size:6pt;background:#F7F9FC;border:1px solid #E6EAF0;color:#0B1426;padding:2mm 2.5mm;border-radius:5px;line-height:1.5}
+  table{width:100%;border-collapse:collapse;font-size:6.6pt}
+  th{font-family:JetBrains Mono,monospace;font-size:5.2pt;letter-spacing:.09em;text-transform:uppercase;color:#6B7A90;text-align:left;padding:1mm 1mm;border-bottom:1.1px solid #0B1426}
+  td{padding:1.2mm 1mm;border-bottom:1px solid #EEF2F7}
+  .badge{font-family:JetBrains Mono,monospace;font-size:5.4pt;letter-spacing:.07em;text-transform:uppercase;padding:.7mm 1.5mm;border-radius:3px;background:#F2F5F9;border:1px solid #E6EAF0;display:inline-block}
+  .badge.dark{background:#0B1426;color:white;border-color:#0B1426}
+  .bar{height:1.8mm;background:#EEF2F7;border-radius:2px;overflow:hidden;margin:.7mm 0 1.2mm}
+  .bar i{display:block;height:100%;background:#0B1426}
+  .figure{border:1px solid #E6EAF0;border-radius:5px;overflow:hidden;background:#FBFDFF;flex:0 0 auto}
+  .caption{font-size:5.6pt;color:#5B6B82;padding:1.2mm 2mm;background:#F7F9FC;border-top:1px solid #E6EAF0;line-height:1.35}
+  .foot{padding:2.6mm 9mm;border-top:1px solid #E6EAF0;background:#F7F9FC;display:flex;justify-content:space-between;align-items:center;font-size:6pt;color:#6B7A90;flex:0 0 auto}
+  .fn{font-size:5.3pt;color:#6B7A90;line-height:1.35;margin-top:1mm}
+  .evidence-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.6mm;margin-top:1.4mm}
+  .evbox{background:#F7F9FC;border:1px solid #E6EAF0;border-radius:4px;padding:1.4mm 1.8mm}
+  .evbox b{font-size:6pt;display:block;margin-bottom:.5mm;color:#0B1426}
+  .evbox span{font-size:5.8pt;line-height:1.35;color:#2B3A4F;display:block}
+  @media print{html,body{background:white}.page{width:210mm;height:297mm;margin:0;border:none}}
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div class="topline"><span>BCS Class III • Oral Delivery • Mechanistic PBPK</span><span></span></div>
+    <h1>BCS III <span>NAVIGATOR</span></h1>
+    <div class="subtitle"><b>A mechanistic PBPK framework for exploring oral delivery of poorly permeable drugs.</b> Predicts <b>F<sub>oral</sub></b> (fraction reaching systemic circulation) from chemistry, formulation and gut physiology — parameter-driven and fully reproducible, mass-balance residual &lt; 10<sup>−10</sup>.</div>
+    <div class="authors"><b>Khaled Ben Taieb</b> • bt.khaled@gmail.com</div>
+  </header>
+
+  <div class="body">
+    <!-- COL 1: 1+2 -->
+    <div class="col">
+      <div class="section">
+        <p class="kicker">1 — Problem</p>
+        <h2>High solubility,<br>low intestinal permeability</h2>
+        <p class="text" style="margin:0">BCS Class III: high solubility / low permeability (FDA). Initially developed using tobramycin as an archetypal BCS III case study.</p>
+        <table style="margin-top:2mm">
+          <tr><th>Property</th><th>Value</th></tr>
+          <tr><td>Molecular weight</td><td class="mono">467.52 g·mol⁻¹</td></tr>
+          <tr><td>pK<sub>a</sub>*</td><td class="mono">6.7, 7.6, 7.7, 7.8, 9.1</td></tr>
+          <tr><td>XlogP3-AA</td><td class="mono">= −6.2 (calculated)</td></tr>
+          <tr><td>Reported solubility†</td><td class="mono">94 mg·mL⁻¹ at 25 °C</td></tr>
+          <tr><td>Mean charge at pH 6.5‡</td><td class="mono">≈ +4.43</td></tr>
+        </table>
+        <p class="fn">* Literature values; pK<sub>a</sub> estimates are method-dependent. † Reported experimental value (vendor sheet at 25 °C); not by itself sufficient to establish BCS high solubility. ‡ Calculated from the listed pK<sub>a</sub> values using an independent-site Henderson–Hasselbalch approximation.</p>
+      </div>
+      <div class="section grow">
+        <p class="kicker">2 — Case study</p>
+        <h2>From <em>1.38%</em> to <em>18.62%</em> predicted F within the modeled formulation space</h2>
+        <table>
+          <tr><th>Formulation</th><th>F</th><th>Cmax</th><th>Path</th></tr>
+          <tr><td>Native tobramycin: predicted F = 1.38% (500 mg)</td><td>1.38%</td><td>0.13</td><td>para</td></tr>
+          <tr><td><span class="badge dark">Optimized A — excipients with regulatory precedents</span></td><td><b>18.62%</b></td><td><b>3.83</b></td><td>trans 68%</td></tr>
+        </table>
+        <table style="margin-top:1.8mm">
+          <tr><th>Component</th><th>Level</th><th>Modeled role</th></tr>
+          <tr><td>SDS</td><td class="mono">HIP mass parameter m<sub>HIP</sub> = 32</td><td>Permeation enhancement (HIP)</td></tr>
+          <tr><td>C10 / Labrasol</td><td class="mono">47 / 18 mM</td><td>TEER modulation</td></tr>
+          <tr><td>NaCDC / PIP / TPGS</td><td class="mono">14 / 9.6 / 4.7 mM</td><td>Bile / transcellular / P-gp effects</td></tr>
+          <tr><td>Chitosan / Gelucire</td><td class="mono">0.8 / 0.85</td><td>TEER / lipid effects</td></tr>
+          <tr><td>Enteric</td><td class="mono">0.66 at pH 5.5</td><td>pH-triggered release</td></tr>
+        </table>
+        <table style="margin-top:1.8mm">
+          <tr><th>Dose (A)</th><th>F</th><th>Cmax [mg·L⁻¹]</th></tr>
+          <tr><td class="mono">250 mg</td><td>18.62%</td><td>1.91</td></tr>
+          <tr><td class="mono">500 mg</td><td>18.62%</td><td>3.83</td></tr>
+          <tr><td class="mono">1000 mg</td><td>18.62%</td><td>7.66</td></tr>
+        </table>
+        <p class="fn">Within the modeled formulation space, conventional excipient combinations increase predicted F to 18.6%, but systemic exposure remains limited (see Cmax). SDS:tobramycin molar ratio 2:1 → 617 mg SDS per 500 mg tobramycin (5:1 → 1542 mg).</p>
+      </div>
+    </div>
+
+    <!-- COL 2: 3+4 -->
+    <div class="col">
+      <div class="section">
+        <p class="kicker">3 — Evidence</p>
+        <h2>Literature-derived / Measured<br>Calculated / Assumed / Predicted</h2>
+        <div class="evidence-grid">
+          <div class="evbox"><b>Literature-derived / Measured</b><span>MW 467.52, reported pK<sub>a</sub> series, reported solubility 94 mg·mL⁻¹ at 25 °C. Provides chemical identity and input data; does not by itself establish BCS classification.</span></div>
+          <div class="evbox"><b>Calculated</b><span>XlogP3-AA = −6.2, mean charge ≈ +4.43 at pH 6.5, SDS masses (617 mg at 2:1), Bohley radius, f<sub>hip</sub>.</span></div>
+          <div class="evbox"><b>Assumed</b><span>Hill EC<sub>50</sub>/Dmax/n, HIP mass parameter m<sub>HIP</sub> = 32, hypothetical transporter Vmax/Km.</span></div>
+          <div class="evbox"><b>Predicted</b><span>F 1.38% → 18.62%, AUC, Cmax, breakdown. Depends on assumptions above.</span></div>
+        </div>
+        <p class="fn" style="margin-top:1.2mm">Mechanistically structured; selectively calibrated under mechanistic constraints. Seven calibrated parameters (p/t/vmax, ref_OCT/ENT, frac_pore, fecal) — see JSON. Calibration: 10 training compounds | Evaluation: 4 holdout compounds.</p>
+      </div>
+      <div class="section grow">
+        <p class="kicker">4 — Mechanistic transport model</p>
+        <h2>Candidate transcellular, paracellular, endocytic and transporter-mediated pathways</h2>
+        <div class="figure">
+          <svg viewBox="0 0 520 72" width="100%" height="60" style="display:block">
+            <rect x="6" y="8" width="82" height="38" rx="6" fill="#0B1426"/><text x="47" y="24" text-anchor="middle" fill="white" font-size="7" font-family="JetBrains Mono">INPUT</text><text x="47" y="36" text-anchor="middle" fill="#9EC8FF" font-size="7" font-weight="700">SMILES</text>
+            <path d="M88 27 H106" stroke="#0B1426" stroke-width="1.2" marker-end="url(#a)"/>
+            <rect x="106" y="8" width="82" height="38" rx="6" fill="white" stroke="#0B1426"/><text x="147" y="24" text-anchor="middle" font-size="6.5" font-family="JetBrains Mono">DISSOLUTION</text><text x="147" y="36" text-anchor="middle" font-size="7" font-weight="700">Noyes-Whitney</text>
+            <path d="M188 27 H206" stroke="#0B1426" stroke-width="1.2" marker-end="url(#a)"/>
+            <rect x="206" y="8" width="82" height="38" rx="6" fill="#F7F9FC" stroke="#0B1426"/><text x="247" y="24" text-anchor="middle" font-size="7" font-family="JetBrains Mono">MUCUS</text><text x="247" y="36" text-anchor="middle" font-size="7" font-weight="700">Amsden</text>
+            <path d="M288 27 H306" stroke="#0B1426" stroke-width="1.2" marker-end="url(#a)"/>
+            <rect x="306" y="8" width="82" height="38" rx="6" fill="#0B1426"/><text x="347" y="24" text-anchor="middle" fill="white" font-size="7" font-family="JetBrains Mono">ENTEROCYTE</text><text x="347" y="36" text-anchor="middle" fill="#9EC8FF" font-size="7" font-weight="700">Fg • P-gp</text>
+            <path d="M388 27 H406" stroke="#0B1426" stroke-width="1.2" marker-end="url(#a)"/>
+            <rect x="406" y="8" width="52" height="38" rx="6" fill="white" stroke="#0B1426"/><text x="432" y="27" text-anchor="middle" font-size="7" font-weight="700">BLOOD</text><text x="432" y="38" text-anchor="middle" font-size="6" fill="#5B6B82">Fh • AUC</text>
+            <defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#0B1426"/></marker></defs>
+          </svg>
+          <div class="caption">Four segments duodenum → colon (pH 6.0→6.8, TEER 60→9 Ω·cm², bile 0.5–8 mM, UWL 30 µm) • 5N+13 states</div>
+        </div>
+        <div class="eq" style="margin-top:1.8mm">
+          <span style="font-size:5.5pt;letter-spacing:.08em;text-transform:uppercase;color:#6B7A90">Net epithelial flux approximation</span><br>
+          <b>J<sub>total</sub> = J<sub>trans</sub> + J<sub>para</sub> + J<sub>endo</sub> + J<sub>OCT</sub> + J<sub>PEPT1</sub> + J<sub>ENT</sub> + J<sub>SGLT</sub> + J<sub>OATP</sub></b><br>
+          J<sub>net</sub> = max(0, J<sub>total</sub> − J<sub>pgp</sub>) · F<sub>oral</sub> = A<sub>abs</sub>/dose
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:2mm;margin-top:1.8mm" class="text">
+          <div><b>Trans</b> Overton + Goldman −60 mV + UWL<br><b>Para</b> Renkin + 2 pores 0.6/5 nm + √Goldman</div>
+          <div><b>Candidate transporter pathways:</b> OCT, PEPT1, ENT, SGLT, OATP; efflux: P-gp/BCRP<br><span style="font-size:6pt;color:#6B7A90">Literature-supported or exploratory depending on pathway; parameters literature-derived or assumed.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COL 3: 5+6+7 -->
+    <div class="col">
+      <div class="section">
+        <p class="kicker">5 — Software</p>
+        <h2>Reproducible, auditable</h2>
+        <div class="eq">predict <b>compound.json</b> <b>formulation.json</b> → <b>result.json</b> <span style="opacity:.5">F_oral, AUC, Cmax, breakdown, mass-balance, trace[]</span></div>
+        <p class="text" style="margin:1.2mm 0 0">Python • SciPy/LSODA • strict schemas • unit-aware calculations • Reproducible runs with versioned code, configurations and inputs</p>
+      </div>
+      <div class="section">
+        <p class="kicker">6 — Preliminary qualification</p>
+        <h2>External benchmark — 14 BCS III drugs</h2>
+        <div class="figure">
+          <svg viewBox="0 0 320 120" width="100%" height="102">
+            <rect width="320" height="120" rx="6" fill="white"/>
+            <line x1="28" y1="10" x2="28" y2="92" stroke="#E6EAF0"/><line x1="28" y1="92" x2="295" y2="92" stroke="#E6EAF0"/>
+            <line x1="28" y1="92" x2="295" y2="10" stroke="#E6EAF0" stroke-dasharray="3 3"/>
+            <circle cx="38" cy="88" r="2.2" fill="#0B1426"/><circle cx="38" cy="88" r="2.2" fill="#0B1426"/><circle cx="34" cy="88" r="2.2" fill="#0B1426"/><circle cx="34" cy="89" r="2.2" fill="#0B1426"/><circle cx="32" cy="92" r="2.2" fill="#0B1426"/><circle cx="52" cy="88" r="2.2" fill="#0B1426"/><circle cx="30" cy="89" r="2.2" fill="#0B1426"/>
+            <circle cx="158" cy="44" r="2.2" fill="#0E7A6E"/><circle cx="158" cy="54" r="2.2" fill="#0E7A6E"/><circle cx="200" cy="26" r="2.2" fill="#0E7A6E"/><circle cx="158" cy="38" r="2.2" fill="#0E7A6E"/><circle cx="138" cy="36" r="2.2" fill="#0E7A6E"/><circle cx="82" cy="68" r="2.2" fill="#0E7A6E"/><circle cx="128" cy="80" r="2.2" fill="#0E7A6E"/>
+            <text x="164" y="114" text-anchor="middle" font-size="6" fill="#6B7A90" font-family="JetBrains Mono">Literature-reported F (%) →</text>
+          </svg>
+          <div class="caption">Predicted vs literature-reported oral F — dashed line = identity. Mechanistic constraints reduce the risk of compensating for structural misspecification through parameter fitting.</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:2mm;margin-top:1.5mm">
+          <div><div style="display:flex;justify-content:space-between;font-size:6.5pt"><span>RMSE: 18.2 → 13.9 pp</span></div><div class="bar"><i style="width:72%;background:#0B1426"></i></div><div class="mono" style="font-size:5pt;color:#6B7A90">Before vs after constrained calibration</div></div>
+          <div><div style="display:flex;justify-content:space-between;font-size:6.5pt"><span>R²: 0.36 → 0.65</span></div><div class="bar"><i style="width:65%;background:#0B1426"></i></div></div>
+        </div>
+        <p class="text" style="margin:1.2mm 0 0;font-size:6.5pt">Calibration: 10 training compounds | Evaluation: 4 holdout compounds • 7 calibrated parameters</p>
+      </div>
+      <div class="section grow">
+        <p class="kicker">7 — Takeaway</p>
+        <h2>Mechanism first.<br>Quantification second.<br>Uncertainty always explicit.</h2>
+        <p class="text" style="margin:0">The framework separates literature-derived inputs, calculated quantities, assumptions and model predictions. Within the modeled formulation space, conventional excipient combinations increase predicted F from 1.38% to 18.62%. The next step is to quantify parameter and structural uncertainty and identify which experimental measurements would most reduce predictive uncertainty.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <div><b>BCS III NAVIGATOR</b> v0.1 • Mechanistically structured; selectively calibrated under mechanistic constraints</div>
+    <div></div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,11 @@
+{
+  "SMILES": "CC1C(O1)P(=O)(O)O",
+  "name": "fosfomycin",
+  "MW": 138.06,
+  "pKa": [1.2, 6.5],
+  "logP": -1.6,
+  "Cs_mg_per_mL": 46.9,
+  "compound_type": "acid",
+  "n_amine": 0,
+  "class": "antibiotic"
+}

@@ -1,0 +1,33 @@
+{
+  "id": "polymyxinb",
+  "mw": 1203.5,
+  "logp": -3.5,
+  "tpsa": 460,
+  "hbd": 15,
+  "hba": 21,
+  "rotb": 30,
+  "aromatic_rings": 1,
+  "frac_sp3": 0.85,
+  "n_o_count": 29,
+  "formal_charge": 0.0,
+  "pkas": [
+    {
+      "type": "base",
+      "pka": 8.5
+    },
+    {
+      "type": "base",
+      "pka": 9.0
+    }
+  ],
+  "cs_mg_l": 100000.0,
+  "has_peptide_bond": true,
+  "is_biguanide": false,
+  "has_azote_base": false,
+  "is_polyol": false,
+  "fu_plasma": 0.5,
+  "clint_liver_ul_min_mg": 0.0,
+  "clint_gut_ul_min_mg": 0.0,
+  "vmax_override": {},
+  "km_override": {}
+}

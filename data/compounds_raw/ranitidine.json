@@ -1,0 +1,11 @@
+{
+  "SMILES": "CNC(=C[N+](=O)[O-])NCCSCC1=CC=C(O1)CN(C)C",
+  "name": "ranitidine",
+  "MW": 314.4,
+  "pKa": [8.2],
+  "logP": 0.28,
+  "Cs_mg_per_mL": 33,
+  "compound_type": "base",
+  "n_amine": 2,
+  "class": "H2-blocker"
+}

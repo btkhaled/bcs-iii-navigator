@@ -1,0 +1,11 @@
+{
+  "SMILES": "CCC(C)CCCC(=O)NC(CCN)C(=O)NC(C(C)O)C(=O)NC(CCN)C(=O)NC1CCNC(=O)C(NC(=O)C(NC(=O)C(NC(=O)C(NC(=O)C(NC(=O)C(NC1=O)CCN)CC(C)C)CC(C)C)CCN)CCN)C(C)O",
+  "name": "colistin",
+  "MW": 1155.4,
+  "pKa": [9.0, 9.5, 10.0],
+  "logP": -3.5,
+  "Cs_mg_per_mL": 50,
+  "compound_type": "base",
+  "n_amine": 5,
+  "class": "polymyxin"
+}

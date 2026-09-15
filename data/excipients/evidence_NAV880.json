@@ -1,0 +1,86 @@
+{
+  "title": "NAV-880 — Analyse Evidence (mesuré / calculé / supposé / prédit)",
+  "date": "2026-09-14",
+  "stoichiometrie_tobramycine_SDS": {
+    "donnees_mesurees": {
+      "tobramycine_MW": {"valeur": 467.52, "unite": "g/mol", "source": "Merck, masse exacte", "evidence": "MESURE"},
+      "tobramycine_pKa": {"valeur": [6.7, 7.6, 7.7, 7.8, 9.1], "n_amines": 5, "source": "literature aminoglycoside", "evidence": "MESURE"},
+      "SDS_MW": {"valeur": 288.38, "unite": "g/mol", "CAS": "151-21-3", "evidence": "MESURE"},
+      "dose_tobra": {"valeur": 500, "unite": "mg", "evidence": "CHOIX formulation"}
+    },
+    "calcule": {
+      "mmol_tobra_500mg": {"valeur": 1.0695, "unite": "mmol", "formule": "500/467.52", "evidence": "CALCULE"},
+      "masse_SDS_stoechiometrique": {
+        "1:1": {"mg": 308, "total_mg": 808, "evidence": "CALCULE"},
+        "2:1": {"mg": 617, "total_mg": 1117, "evidence": "CALCULE"},
+        "3:1": {"mg": 925, "total_mg": 1425, "evidence": "CALCULE"},
+        "5:1_charge_neutre": {"mg": 1542, "total_mg": 2042, "evidence": "CALCULE", "note": "5 SDS par tobra pour neutraliser 5+ "}
+      },
+      "erreur_ancienne_fiche": {
+        "valeur_315mg": {"statut": "FAUX - correspond à 1:1, pas 5:1", "corrige_en": "617 mg (2:1) recommande ou 1542 mg (5:1) theorique"},
+        "impact_gelule": {"avec_315mg": "808 mg total (1 gelule 00 OK)", "avec_1542mg": "2042 mg total (2 gelules 00 ou 1x OOO - non viable)", "avec_617mg_2:1": "1117 mg total (2 gelules 00 - limite)"}
+      }
+    },
+    "suppose": {
+      "ratio_retenu_NAV880": {"valeur": "2:1 (617 mg SDS)", "justification": "litterature HIP tobra: 2-3 SDS suffisent pour logD +3, 5:1 precipite et toxique", "evidence": "SUPPOSE - a valider precipitation + logD mesure", "alternative": "DOSS (docusate) 444g/mol -> 950 mg pour 2:1, moins irritant que SDS"},
+      "m_hip_32": {"valeur": 32.0, "meaning": "P_trans x32 et f_hip 0.861", "f_hip": 0.861, "f_trans_exemple_pH6.5": 0.431, "evidence": "SUPPOSE - issu optimisation, pas mesure logD", "a_mesurer": "logD shake-flask tobra-SDS 2:1 vs 5:1"},
+      "f_free_0.95": {"valeur": 0.95, "meaning": "95% dissous libre", "evidence": "SUPPOSE - pas mesure dialyse"}
+    }
+  },
+  "separation_evidence_par_parametre": {
+    "MESURE": [
+      "MW tobra 467.52, MW SDS 288.38, MW PEG2000 2000, MW chitosane 20kDa (GPC)",
+      "pKa tobra 5 valeurs (potentiometrie)",
+      "TEER Caco-2 baseline 60 Ohm (mesure TEER)",
+      "Cs tobra 94 mg/mL (shake-flask)",
+      "logP tobra -6.2 (HPLC)"
+    ],
+    "CALCULE": [
+      "mmol et masses SDS ci-dessus (arithmetique)",
+      "rayon Bohley 0.091*MW^0.33 (formule)",
+      "f_hip 0.861 et f_trans 0.431 (Henderson-Hasselbalch + HIP)",
+      "F_mucus 0.34->1.0 via Amsden (formule)"
+    ],
+    "SUPPOSE (hypothese modelisable, a prouver)": [
+      "m_hip 32 atteignable avec SDS 2:1 (pas mesure logD)",
+      "denovo_p_trans 8x = SNAC+C12 greffe apporte +0.9 logD (pas mesure Papp)",
+      "denovo_p_para 8x = chitosane-PEG ouvre TEER 60->7.5 (pas mesure TEER)",
+      "denovo_mucus 2.94x = 50nm PEG corona traverse mucus (pas mesure mucus-chip)",
+      "k_release 4.5 h-1, enteric 0, fecal_bound 0.812 (calibration, pas mesure)",
+      "Goldman -60mV, pore 0.6nm/5nm, Dcrit 150nm (litterature, pas mesure NAV-880)"
+    ],
+    "PREDIT (sortie ODE, pas observable direct)": [
+      "F 77.15% @500mg, AUC 64.3, Cmax 10.92 (integrale LSODA 48h)",
+      "breakdown trans89/para11, dominant trans",
+      "Cmax/CMI 10.9 @CMI1 (division Cmax/CMI)",
+      "masse restante vs eliminee vs fecale (bilan exact 5e-10)"
+    ]
+  },
+  "plausibilite_NAV880": {
+    "plausible": [
+      "Briques toutes GRAS/FDA IID (sauf hybride covalent = NCE)",
+      "Taille 50nm zeta0 PEGyle = mucus-penetrating demontre litterature (Hanes 2012)",
+      "Chitosane ouvre TEER 8x demontre (Thanou 2001)",
+      "SNAC chaperon trans demontre Rybelsus"
+    ],
+    "optimiste_non_prouve": [
+      "Les 3 effets 8x/8x/2.94x simultanes et additifs dans 1 polymere (pas de competition/precipitation)",
+      "HIP32 avec seulement 2 SDS (suppose 2 suffisent, 5 theorique fait 2042 mg/2 gelules - limite patient)",
+      "Aucune tox additionnelle (SDS 617 mg oral = irritant, DOSS preferable mais change logD)",
+      "F 77% predit avec RTOL 1e-6 (erreur numerique 0.03pp ok) mais sans variabilite inter-individuelle (n=1 virtuel)"
+    ],
+    "tests_critiques_pour_statuer": [
+      "1. logD tobra-SDS 2:1 vs 5:1 (shake-flask) -> confirme m_hip 32 ou corrige a ~8-12",
+      "2. TEER Caco-2 NAV-880 150mg -> 60->7.5 ? (8x)",
+      "3. Papp tobra + NAV-880 vs tobra seul (trans 8x ?)",
+      "4. Mucus-chip 50nm PEG vs 150nm (2.94x ?)",
+      "5. Rat PK 500mg tobra+NAV-880 vs IV -> F mesure vs 77% predit"
+    ]
+  },
+  "fichiers_mis_a_jour": {
+    "formulation": "data/formulations/tobramycin_NAV880.json (m_hip 32, denovo 8/8/2.94)",
+    "excipient": "data/excipients/NAV-880.json (spec minimale viable)",
+    "detail": "data/excipients/detailed.json (corrige SDS 315->617 mg, ajoute evidence)",
+    "ce_fichier": "data/excipients/evidence_NAV880.json"
+  }
+}

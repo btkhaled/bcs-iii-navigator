@@ -1,0 +1,11 @@
+{
+  "SMILES": "CC1=C(N=CN1)CSCCNC(=NC)NC#N",
+  "name": "cimetidine",
+  "MW": 252.3,
+  "pKa": [6.8],
+  "logP": 0.4,
+  "Cs_mg_per_mL": 11,
+  "compound_type": "base",
+  "n_amine": 1,
+  "class": "H2-blocker"
+}

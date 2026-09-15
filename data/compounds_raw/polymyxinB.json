@@ -1,0 +1,16 @@
+{
+  "SMILES": "CCC(C)CCCCC(=O)NC(CCN)C(=O)NC(C(C)O)C(=O)NC(CCN)C(=O)NC1CCNC(=O)C(NC(=O)C(NC(=O)C(NC(=O)C(NC(=O)C(NC(=O)C(NC1=O)CCN)CC2=CC=CC=C2)CC(C)C)CCN)CCN)C(C)O",
+  "name": "polymyxinB",
+  "MW": 1203.5,
+  "pKa": [
+    8.5,
+    9.0
+  ],
+  "logP": -3.5,
+  "Cs_mg_per_mL": 100,
+  "compound_type": "base",
+  "n_amine": 5,
+  "class": "polymyxin",
+  "bcs_class": "III",
+  "bcs_notes": "High solubility >100 mg/mL, low permeability F<1% - BCS III cationic polypeptide, correct. Negative control: even with HIP+SEDDS F stays 0.5% (MW>1000)."
+}

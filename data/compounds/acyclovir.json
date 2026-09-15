@@ -1,0 +1,33 @@
+{
+  "id": "acyclovir",
+  "mw": 225.2,
+  "logp": -1.56,
+  "tpsa": 115,
+  "hbd": 3,
+  "hba": 5,
+  "rotb": 4,
+  "aromatic_rings": 2,
+  "frac_sp3": 0.375,
+  "n_o_count": 7,
+  "formal_charge": 0.0,
+  "pkas": [
+    {
+      "type": "base",
+      "pka": 2.27
+    },
+    {
+      "type": "acid",
+      "pka": 9.25
+    }
+  ],
+  "cs_mg_l": 1300.0,
+  "has_peptide_bond": false,
+  "is_biguanide": false,
+  "has_azote_base": true,
+  "is_polyol": false,
+  "fu_plasma": 0.9,
+  "clint_liver_ul_min_mg": 0.0,
+  "clint_gut_ul_min_mg": 0.0,
+  "vmax_override": {},
+  "km_override": {}
+}

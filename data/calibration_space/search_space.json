@@ -1,0 +1,14 @@
+{
+  "comment": "Espace de recherche calibration NSGA-II. Échelles log10 sauf mention. Bornes = plausibilité IVIVE/littérature, jamais d'ordre de grandeur libre.",
+  "genes": [
+    {"name": "p_scale", "lo": 1.0, "hi": 2.4771, "scale": "log10", "why": "Incertitude QSPR pores aqueux ~1 log"},
+    {"name": "t_scale", "lo": -0.5229, "hi": 0.4771, "scale": "log10", "why": "QSPR lipidique mieux contrainte"},
+    {"name": "vmax_scale", "lo": -0.5229, "hi": 0.4771, "scale": "log10", "why": "Systèmes surexprimés -> entérocyte"},
+    {"name": "ref_OCT3", "lo": -2.0, "hi": 0.0, "scale": "log10", "why": "Expression intestinale faible vs rein"},
+    {"name": "ref_ENT", "lo": -2.0, "hi": 0.0, "scale": "log10", "why": "Idem, transporteurs ubiquitaires"},
+    {"name": "frac_large_pore", "lo": -5.0, "hi": -3.0, "scale": "log10", "why": "Littérature pores larges jonctions serrées"},
+    {"name": "fecal_bound_colon", "lo": 0.5, "hi": 0.95, "scale": "lin", "why": "Liaison fécale colique documentée"}
+  ],
+  "train": ["tobramycin", "gentamicin", "metformin", "atenolol", "cimetidine", "ranitidine", "acyclovir", "fosfomycin", "vancomycin", "colistin"],
+  "holdout": ["amikacin", "famotidine", "desmopressin", "aztreonam"]
+}

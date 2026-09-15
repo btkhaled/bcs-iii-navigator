@@ -1,0 +1,11 @@
+{
+  "p_scale": 86.16663044565263,
+  "t_scale": 0.9811600395361716,
+  "vmax_scale": 0.9397428376198533,
+  "frac_large_pore": 9.139265454612018e-05,
+  "endo_transcytosis": 0.01,
+  "ref_OCT3": 0.03033256218842412,
+  "ref_ENT": 0.03372918681389724,
+  "fecal_bound_colon": 0.8124799769410743,
+  "notes": "NSGA-II contrainte c9323f6592db76ad applique (fast+reeval). RMSE 18.2->13.9 pp, R2 0.36->0.65, holdout 14.7pp, tous mecanismes OK."
+}

@@ -1,0 +1,11 @@
+{
+  "SMILES": "CN(C)C(=N)N=C(N)N",
+  "name": "metformin",
+  "MW": 129.1,
+  "pKa": [12.4],
+  "logP": -2.64,
+  "Cs_mg_per_mL": 300,
+  "compound_type": "base",
+  "n_amine": 2,
+  "class": "biguanide"
+}

@@ -1,0 +1,20 @@
+{
+  "enhancers": {
+    "C10": {"ec50_mm": 10.0, "dmax": 0.85, "n": 1.8},
+    "EDTA": {"ec50_mm": 2.0, "dmax": 0.6, "n": 1.5},
+    "C8": {"ec50_mm": 15.0, "dmax": 0.5, "n": 1.5},
+    "C12": {"ec50_mm": 8.0, "dmax": 0.6, "n": 1.5},
+    "BILE": {"ec50_mm": 10.0, "dmax": 0.4, "n": 1.2},
+    "Labrasol": {"ec50_mm": 5.0, "dmax": 0.7, "n": 1.6},
+    "NaCDC": {"ec50_mm": 8.0, "dmax": 0.65, "n": 1.4}
+  },
+  "snac_factor_per_mm": 0.02,
+  "pip_factor_per_mm": 0.015,
+  "tpgs_pgp_factor": 0.9,
+  "lipid_factor_per_frac": 1.0,
+  "chitosan_teer_factor": 2.0,
+  "teer_max_drop": 10.0,
+  "tau_on_h": 0.125,
+  "tau_rec_h": 1.0,
+  "d_crit_nm": 150.0
+}

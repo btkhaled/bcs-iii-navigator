@@ -1,0 +1,11 @@
+{
+  "SMILES": "CC(C)NCC(COC1=CC=C(C=C1)CC(=O)N)O",
+  "name": "atenolol",
+  "MW": 266.3,
+  "pKa": [9.6],
+  "logP": 0.16,
+  "Cs_mg_per_mL": 26.5,
+  "compound_type": "base",
+  "n_amine": 1,
+  "class": "beta-blocker"
+}

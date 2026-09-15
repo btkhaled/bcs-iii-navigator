@@ -1,0 +1,8 @@
+{
+  "method": "LSODA",
+  "t_end_h": 48.0,
+  "rtol": 1e-06,
+  "atol": 1e-09,
+  "mass_tol_mg": 0.001,
+  "n_eval": 400
+}

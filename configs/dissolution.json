@@ -1,0 +1,7 @@
+{
+  "model": "noyes_whitney",
+  "diffusion_cm2_s": 5e-06,
+  "particle_radius_um": 25.0,
+  "diffusion_layer_um": 30.0,
+  "density_mg_cm3": 1300.0
+}

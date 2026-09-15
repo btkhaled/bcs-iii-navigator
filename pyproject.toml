@@ -1,0 +1,54 @@
+[project]
+name = "bcs-iii-navigator"
+version = "0.1.0"
+description = "BCS III NAVIGATOR — mechanistic PBPK framework for poorly permeable drugs (F_oral prediction)"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "Proprietary — All rights reserved. Contact author for access."}
+authors = [{name = "Khaled Ben Taieb", email = "bt.khaled@gmail.com"}]
+keywords = ["pbpk", "bcs-iii", "pharmacokinetics", "oral-delivery", "mechanistic-model"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+  "Topic :: Scientific/Engineering :: Medical Science Apps.",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+]
+dependencies = [
+  "numpy>=1.24",
+  "scipy>=1.11",
+  "pydantic>=2.0",
+  "fastapi>=0.110",
+  "uvicorn[standard]>=0.29",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0",
+  "httpx>=0.27",
+  "ruff>=0.4",
+]
+
+[project.urls]
+Homepage = "https://github.com/btkhaled/bcs-iii-navigator"
+Repository = "https://github.com/btkhaled/bcs-iii-navigator"
+Issues = "https://github.com/btkhaled/bcs-iii-navigator/issues"
+
+[project.scripts]
+navigator-predict = "navigator.interfaces.cli.main:main"
+navigator-calibrate = "navigator.interfaces.cli.calibrate:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/navigator"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"

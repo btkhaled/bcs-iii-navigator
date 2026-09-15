@@ -1,0 +1,22 @@
+{
+  "id": "opt",
+  "dose_mg": 987.7557551943943,
+  "f_free": 0.95,
+  "m_hip": 32.0,
+  "hip_counterion": "SDS",
+  "lipid_frac": 0.825261014158767,
+  "particle_nm": 261.4923014583923,
+  "zeta_mv": 0.0,
+  "c10_mm": 49.10740231682608,
+  "snac_mm": 39.65419105066889,
+  "edta_mm": 10.0,
+  "c8_mm": 0.0,
+  "c12_mm": 0.0,
+  "bile_mm": 0.0,
+  "chitosan": 0.8,
+  "polymer": null,
+  "k_release_h": 4.755120983739994,
+  "enteric": 0.6903150925139772,
+  "enteric_ph_threshold": 5.5,
+  "pgp_inhibitor": 0.0
+}

@@ -1,0 +1,37 @@
+{
+  "BCRP": {
+    "km_um": 50.0,
+    "ref": 1.0,
+    "vmax_pmol_cm2_min": 600.0
+  },
+  "ENT": {
+    "km_um": 150.0,
+    "ref": 0.03372918681389724,
+    "vmax_pmol_cm2_min": 900.0
+  },
+  "OATP2B1": {
+    "km_um": 20.0,
+    "ref": 1.0,
+    "vmax_pmol_cm2_min": 500.0
+  },
+  "OCT3": {
+    "km_um": 800.0,
+    "ref": 0.03033256218842412,
+    "vmax_pmol_cm2_min": 1200.0
+  },
+  "PEPT1": {
+    "km_um": 1200.0,
+    "ref": 1.0,
+    "vmax_pmol_cm2_min": 2500.0
+  },
+  "PGP": {
+    "km_um": 100.0,
+    "ref": 1.0,
+    "vmax_pmol_cm2_min": 1500.0
+  },
+  "SGLT1": {
+    "km_um": 500.0,
+    "ref": 1.0,
+    "vmax_pmol_cm2_min": 700.0
+  }
+}

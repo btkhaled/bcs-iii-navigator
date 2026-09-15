@@ -1,0 +1,201 @@
+{
+  "excipients": [
+    {
+      "id": "C10",
+      "nom": "Caprate de sodium (C10)",
+      "CAS": "1002-62-6",
+      "MW": 194.0,
+      "type": "teer_opener",
+      "mecanisme": "Hill EC50 10 mM Dmax 0.85 n1.8 -> TEER 60->9 (M_TEER 6.7) via Bliss",
+      "statut_reglementaire": "GRAS, FDA IID (gélules), food additive",
+      "fournisseur": "Gattefossé / Larodan",
+      "dispo": "commercial kg, poudre",
+      "dose_NAV880_mg": 0,
+      "dose_voieA_mg_estim": "~280 mg (50 mM dans 30 mL luminal) - voie A seulement",
+      "tox": "irritant >20 mM, diarrhée dose-dépendante"
+    },
+    {
+      "id": "C8",
+      "nom": "Caprylate de sodium (C8)",
+      "CAS": "1984-06-1",
+      "MW": 144.0,
+      "type": "teer_opener",
+      "mecanisme": "Hill EC50 15 mM Dmax 0.5",
+      "statut_reglementaire": "GRAS, FDA IID",
+      "fournisseur": "Sigma",
+      "dispo": "oui",
+      "dose_NAV880_mg": 0
+    },
+    {
+      "id": "C12",
+      "nom": "Laurate de sodium (C12)",
+      "CAS": "629-25-4",
+      "MW": 200.0,
+      "type": "teer_opener + domaine alkyl NAV-880",
+      "mecanisme": "Hill EC50 8 mM Dmax 0.6; dans NAV-880 greffé covalent sur chitosane (pas libre)",
+      "statut_reglementaire": "GRAS",
+      "fournisseur": "Sigma",
+      "dispo": "oui, dans NAV-880 greffé",
+      "dose_NAV880_mg": "~25 mg greffé (DS 10% sur 150 mg polymère)"
+    },
+    {
+      "id": "EDTA",
+      "nom": "EDTA disodique",
+      "CAS": "139-07-1",
+      "MW": 292.0,
+      "type": "teer_opener (chélateur Ca2+)",
+      "mecanisme": "Hill EC50 2 mM Dmax 0.6",
+      "statut_reglementaire": "GRAS, FDA IID",
+      "fournisseur": "Sigma",
+      "dispo": "oui",
+      "dose_NAV880_mg": 0
+    },
+    {
+      "id": "SNAC",
+      "nom": "Salcaprozate sodique (SNAC)",
+      "CAS": "203787-91-1",
+      "MW": 301.0,
+      "type": "trans_chaperone",
+      "mecanisme": "per_mm 0.02 -> 40 mM = 1.8x P_trans (chaperon, pas TEER)",
+      "statut_reglementaire": "FDA approuvé Rybelsus®",
+      "fournisseur": "Novo Nordisk / Synthon",
+      "dispo": "oui (GMP)",
+      "dose_NAV880_mg": 0,
+      "note": "dans NAV-880 greffé covalent, pas libre"
+    },
+    {
+      "id": "PIP",
+      "nom": "Pipérine",
+      "CAS": "94-62-2",
+      "MW": 285.0,
+      "type": "trans_chaperone + CYP inhibiteur",
+      "mecanisme": "per_mm 0.015 -> 10 mM = 1.15x",
+      "statut_reglementaire": "complément alimentaire, GRAS",
+      "fournisseur": "Sabinsa",
+      "dispo": "oui"
+    },
+    {
+      "id": "Labrasol",
+      "nom": "Caprylocaproyl polyoxylglycerides (Labrasol®)",
+      "CAS": "121548-05-8",
+      "MW": 400.0,
+      "type": "teer_opener surfactant",
+      "mecanisme": "Hill EC50 5 mM Dmax 0.7",
+      "statut_reglementaire": "FDA IID, PhEur",
+      "fournisseur": "Gattefossé",
+      "dispo": "oui"
+    },
+    {
+      "id": "NaCDC",
+      "nom": "Chénodéoxycholate de sodium",
+      "CAS": "302-95-4",
+      "MW": 414.0,
+      "type": "teer_opener (bile)",
+      "mecanisme": "Hill EC50 8 mM Dmax 0.65",
+      "statut_reglementaire": "endogène, GRAS (bile)",
+      "fournisseur": "Sigma",
+      "dispo": "oui"
+    },
+    {
+      "id": "TPGS",
+      "nom": "D-alpha-Tocopheryl PEG 1000 succinate (TPGS)",
+      "CAS": "9002-96-4",
+      "MW": 1513.0,
+      "type": "pgp_inhibitor + solubilizer",
+      "mecanisme": "0.9 * tpgs_mm/10 -> 5 mM = 45% inhibition P-gp",
+      "statut_reglementaire": "FDA IID, GRAS",
+      "fournisseur": "Antares / Isochem",
+      "dispo": "oui"
+    },
+    {
+      "id": "SDS",
+      "nom": "Dodécylsulfate de sodium (SDS)",
+      "CAS": "151-21-3",
+      "MW": 288.0,
+      "type": "hip_counterion",
+      "mecanisme": "HIP32: tobramycine 5+ + 5 SDS- -> paire neutre logD +3, m_hip 32, f_hip 0.88",
+      "statut_reglementaire": "FDA IID (topique), irritant oral -> remplaçable par docusate (DOSS) plus sûr",
+      "fournisseur": "Sigma",
+      "dispo": "oui",
+      "dose_NAV880_mg": "617 mg (2:1) - 5:1 theorique 1542 mg (2 gelules) - 1:1 =308 mg - voir evidence_NAV880.json - DOSS 2:1 =950 mg moins irritant"
+    },
+    {
+      "id": "Gelucire",
+      "nom": "Gelucire 44/14 (lauroyl polyoxylglycerides)",
+      "CAS": "121548-05-8",
+      "MW": 1500.0,
+      "type": "lipid SEDDS",
+      "mecanisme": "lipid_factor 1.0 * frac 0.85 = 1.85x solubilisation + P_trans",
+      "statut_reglementaire": "FDA IID, PhEur",
+      "fournisseur": "Gattefossé",
+      "dispo": "oui"
+    },
+    {
+      "id": "chitosan",
+      "nom": "Chitosane 20kDa désacétylé >85%",
+      "CAS": "9012-76-4",
+      "MW": 20000.0,
+      "type": "teer_opener_mucoadhesive",
+      "mecanisme": "teer_factor 2.0 * 0.8 = 2.6x M_TEER via chitosane libre; dans NAV-880 greffé PEG-SNAC",
+      "statut_reglementaire": "GRAS, FDA IID (complément)",
+      "fournisseur": "Heppe Medical / Marinard",
+      "dispo": "oui (GMP dispo)",
+      "dose_NAV880_mg": "scaffold 20kDa, 150 mg hybrid total"
+    },
+    {
+      "id": "PEG2000",
+      "nom": "PEG2000-NHS",
+      "CAS": "30846-90-3",
+      "MW": 2000.0,
+      "type": "mucus_penetrating corona",
+      "mecanisme": "d_crit 150nm -> F_mucus 0.34 -> 1.0 avec 50nm PEGylé (x2.94)",
+      "statut_reglementaire": "FDA IID, GRAS",
+      "fournisseur": "JenKem / Sigma",
+      "dispo": "oui"
+    },
+    {
+      "id": "NAV-880",
+      "nom": "NaviPore-880 (hybride de-novo)",
+      "CAS": "polymère sur mesure, pas de CAS",
+      "MW": 45000.0,
+      "type": "hybrid_teer_trans_mucus",
+      "mecanisme": "denovo_p_trans 8.0x / denovo_p_para 8.0x / denovo_mucus 2.94x -> F 1.38% -> 77% @500mg (Cmax10.9)",
+      "statut_reglementaire": "NCE, à qualifier tox (pas IID)",
+      "fournisseur": "synthèse labo 4 étapes (voir NAV-880.json)",
+      "dispo": "NON - à synthétiser (briques toutes dispo)",
+      "dose_par_gelule": "150 mg NAV-880 + 500 mg tobra-SDS + Gelucire qsp 965 mg (1 gélule 00)",
+      "synthese": "chitosane -> PEG2000 (DS10%) -> SNAC (DS15%) -> C12 (DS10%) -> nanoprécipitation tobra-SDS -> enrobage"
+    }
+  ],
+  "formulation_complete_NAV880_500mg": {
+    "fichier": "data/formulations/tobramycin_NAV880.json",
+    "composition_mg": {
+      "tobramycine_base": 500,
+      "SDS_2:1_retenu": 617,
+      "SDS_5:1_theorique": 1542,
+      "SDS_1:1_min": 308,
+      "NAV-880_polymere": 150,
+      "Gelucire_qsp": "~0 mg (total 2:1 =1267 mg = 2 gelules 00; 1:1 =958 mg =1 gelule 00)",
+      "evidence": "calcule 500/467.52=1.0695 mmol * ratio *288.38 - voir evidence_NAV880.json"
+    },
+    "parametres_moteur": {
+      "m_hip": 32.0,
+      "lipid_frac": 0.85,
+      "particle_nm": 50.0,
+      "zeta_mv": 0.0,
+      "chitosan": 0.8,
+      "denovo_p_trans": 8.0,
+      "denovo_p_para": 8.0,
+      "denovo_mucus": 2.94,
+      "k_release_h": 4.5
+    },
+    "performance_predite": {
+      "F": "77.15%",
+      "AUC": 64.3,
+      "Cmax": 10.92,
+      "Cmax_CMI_1": 10.9,
+      "dose_250mg_Cmax": 5.46,
+      "dose_750mg_Cmax": 16.38
+    }
+  }
+}

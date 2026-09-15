@@ -1,0 +1,37 @@
+{
+  "id": "teicoplanin",
+  "mw": 1880.0,
+  "logp": -1.5,
+  "tpsa": 600,
+  "hbd": 18,
+  "hba": 30,
+  "rotb": 15,
+  "aromatic_rings": 7,
+  "frac_sp3": 0.4,
+  "n_o_count": 42,
+  "formal_charge": 0.0,
+  "pkas": [
+    {
+      "type": "acid",
+      "pka": 2.8
+    },
+    {
+      "type": "base",
+      "pka": 7.0
+    },
+    {
+      "type": "base",
+      "pka": 9.0
+    }
+  ],
+  "cs_mg_l": 100000.0,
+  "has_peptide_bond": true,
+  "is_biguanide": false,
+  "has_azote_base": false,
+  "is_polyol": false,
+  "fu_plasma": 0.1,
+  "clint_liver_ul_min_mg": 0.0,
+  "clint_gut_ul_min_mg": 0.0,
+  "vmax_override": {},
+  "km_override": {}
+}

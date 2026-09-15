@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BCS III NAVIGATOR — Dashboard</title>
+<link rel="stylesheet" href="/static/vendor/tailwind.min.css" onerror="this.onerror=null;this.href='https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css'">
+<!-- Tailwind JIT for arbitrary values (local, async not blocking) -->
+<script src="/static/vendor/tailwind_jit.js" async onerror="this.onerror=null;this.src='https://cdn.tailwindcss.com'"></script>
+<script src="/static/vendor/chart.min.js" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js'"></script>
+<script>if(typeof Chart!=='undefined'){ Chart.defaults.animation=false; Chart.defaults.responsive=true; }</script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Source+Serif+4:opsz,wght@8..60,600&display=swap" rel="stylesheet">
+<style>
+  /* fallback for arbitrary Tailwind values when JIT not yet loaded */
+  .bg-\[\#0B1426\]{background:#0B1426}
+  .bg-\[\#F1F5F9\]{background:#F1F5F9}
+  .text-\[\#0B1426\]{color:#0B1426}
+  .border-\[\#0B1426\]{border-color:#0B1426}
+  .max-w-\[1440px\]{max-width:1440px}
+</style>
+<style>
+  *{font-family:Inter,system-ui,sans-serif}
+  .mono{font-family:JetBrains Mono,monospace}
+  .serif{font-family:"Source Serif 4",serif}
+  ::-webkit-scrollbar{width:6px;height:6px}
+  ::-webkit-scrollbar-thumb{background:#CBD5E1;border-radius:3px}
+  input[type=range]{accent-color:#0B1426}
+  canvas{display:block; max-width:100%;}
+  .chart-wrap{position:relative; width:100%;}
+</style>
+</head>
+<body class="bg-[#F1F5F9] text-slate-900 min-h-screen">
+<!-- Header -->
+<header class="bg-white border-b border-slate-200 sticky top-0 z-40">
+  <div class="max-w-[1440px] mx-auto px-5 py-3 flex items-center justify-between gap-4">
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-lg bg-[#0B1426] flex items-center justify-center text-white font-bold mono text-sm">N</div>
+      <div>
+        <div class="serif text-[16px] font-semibold leading-none tracking-tight">BCS III <span class="text-teal-700">NAVIGATOR</span></div>
+        <div class="mono text-[10px] tracking-widest uppercase text-slate-500">Mechanistic PBPK • Single-port dashboard • v0.1.0</div>
+      </div>
+    </div>
+    <div class="flex items-center gap-2">
+      <span class="mono text-[10px] px-2 py-1 rounded bg-emerald-50 border border-emerald-200 text-emerald-700" id="healthBadge">● checking…</span>
+      <a href="/api/docs" target="_blank" class="mono text-[11px] px-3 py-1.5 rounded border border-slate-300 hover:bg-slate-50">API docs</a>
+    </div>
+  </div>
+  <!-- Tabs -->
+  <div class="max-w-[1440px] mx-auto px-5">
+    <nav class="flex gap-1 overflow-x-auto -mb-px" id="tabs">
+      <button data-tab="predict" class="tab active mono text-[11px] tracking-widest uppercase px-3.5 py-2.5 border-b-2 border-[#0B1426] text-[#0B1426] font-semibold whitespace-nowrap">1 • Predict</button>
+      <button data-tab="lab" class="tab mono text-[11px] tracking-widest uppercase px-3.5 py-2.5 border-b-2 border-transparent text-slate-500 hover:text-slate-800 whitespace-nowrap">2 • Formulation Lab</button>
+      <button data-tab="batch" class="tab mono text-[11px] tracking-widest uppercase px-3.5 py-2.5 border-b-2 border-transparent text-slate-500 hover:text-slate-800 whitespace-nowrap">3 • Batch</button>
+      <button data-tab="optimize" class="tab mono text-[11px] tracking-widest uppercase px-3.5 py-2.5 border-b-2 border-transparent text-slate-500 hover:text-slate-800 whitespace-nowrap">4 • Optimize</button>
+      <button data-tab="validate" class="tab mono text-[11px] tracking-widest uppercase px-3.5 py-2.5 border-b-2 border-transparent text-slate-500 hover:text-slate-800 whitespace-nowrap">5 • Validation</button>
+      <button data-tab="config" class="tab mono text-[11px] tracking-widest uppercase px-3.5 py-2.5 border-b-2 border-transparent text-slate-500 hover:text-slate-800 whitespace-nowrap">6 • Config</button>
+    </nav>
+  </div>
+</header>
+
+<main class="max-w-[1440px] mx-auto px-5 py-5">
+  <!-- 1 PREDICT -->
+  <section id="view-predict" class="view">
+    <div class="grid grid-cols-12 gap-4">
+      <!-- controls -->
+      <div class="col-span-12 lg:col-span-4 space-y-4">
+        <div class="bg-white rounded-xl border border-slate-200 p-4">
+          <div class="mono text-[10px] tracking-widest uppercase text-teal-700 font-semibold mb-2">Input</div>
+          <label class="mono text-[11px] text-slate-600">Compound</label>
+          <select id="predCompound" class="w-full mt-1 mb-3 px-3 py-2 rounded-lg border border-slate-300 bg-white text-sm"></select>
+          <label class="mono text-[11px] text-slate-600">Formulation</label>
+          <select id="predForm" class="w-full mt-1 mb-3 px-3 py-2 rounded-lg border border-slate-300 bg-white text-sm"></select>
+          <div class="grid grid-cols-2 gap-3">
+            <div><label class="mono text-[11px] text-slate-600">Dose (mg)</label><input id="predDose" type="number" value="500" class="w-full mt-1 px-3 py-2 rounded-lg border border-slate-300 text-sm"></div>
+            <div><label class="mono text-[11px] text-slate-600">m_HIP</label><input id="predHip" type="number" value="1" step="0.1" min="1" max="32" class="w-full mt-1 px-3 py-2 rounded-lg border border-slate-300 text-sm"></div>
+          </div>
+          <button id="predRun" class="w-full mt-4 bg-[#0B1426] text-white rounded-lg py-2.5 text-sm font-semibold hover:bg-slate-800">Run prediction (≈120 ms)</button>
+          <div class="mono text-[10px] text-slate-500 mt-2" id="predStatus">Select and run.</div>
+          <div class="mt-3 p-2 rounded bg-amber-50 border border-amber-200 mono text-[11px] hidden" id="predWarnings"></div>
+        </div>
+        <div class="bg-white rounded-xl border border-slate-200 p-4">
+          <div class="mono text-[10px] tracking-widest uppercase text-slate-500 mb-2">Quick compare</div>
+          <div class="mono text-[11px] text-slate-600 mb-1">Native 1.38% → Optimized 18.62% (A)</div>
+          <div class="flex gap-2">
+            <button onclick="quickLoad('tobramycin','native')" class="flex-1 mono text-[11px] px-2 py-2 rounded border border-slate-300 hover:bg-slate-50">Native</button>
+            <button onclick="quickLoad('tobramycin','tobramycin_normal')" class="flex-1 mono text-[11px] px-2 py-2 rounded bg-[#0B1426] text-white">Optimized A</button>
+          </div>
+          <div class="mt-3 mono text-[10px] text-slate-500">SDS 2:1 → 617 mg per 500 mg tobramycin • 5:1 → 1542 mg</div>
+        </div>
+      </div>
+      <!-- results -->
+      <div class="col-span-12 lg:col-span-8 space-y-4">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3" id="predKpis">
+          <!-- injected -->
+        </div>
+        <div class="bg-white rounded-xl border border-slate-200 p-4">
+          <div class="flex items-center justify-between mb-2">
+            <div class="mono text-[10px] tracking-widest uppercase text-slate-500">Absorption breakdown</div>
+            <div class="mono text-[10px] text-slate-500" id="predDominant">dominant: —</div>
+          </div>
+          <div style="height:160px; position:relative"><canvas id="breakdownChart"></canvas></div>
+          <div class="grid grid-cols-4 lg:grid-cols-8 gap-1 mt-3 mono text-[10px] text-slate-500" id="breakdownLegend"></div>
+        </div>
+        <div class="grid grid-cols-12 gap-4">
+          <div class="col-span-12 lg:col-span-7 bg-white rounded-xl border border-slate-200 p-4">
+            <div class="mono text-[10px] tracking-widest uppercase text-slate-500 mb-2">PK metrics</div>
+            <div class="grid grid-cols-3 gap-3 text-sm" id="predPk"></div>
+            <div class="mono text-[10px] text-slate-500 mt-3" id="predMeta"></div>
+          </div>
+          <div class="col-span-12 lg:col-span-5 bg-white rounded-xl border border-slate-200 p-4">
+            <div class="mono text-[10px] tracking-widest uppercase text-slate-500 mb-2">Trace</div>
+            <pre class="mono text-[11px] bg-slate-50 border border-slate-200 rounded p-2 max-h-[180px] overflow-auto" id="predTrace">—</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 LAB -->
+  <section id="view-lab" class="view hidden">
+    <div class="grid grid-cols-12 gap-4">
+      <div class="col-span-12 lg:col-span-4 space-y-4">
+        <div class="bg-white rounded-xl border border-slate-200 p-4">
+          <div class="mono text-[10px] tracking-widest uppercase text-teal-700 font-semibold mb-2">Formulation Lab — live</div>
+          <label class="mono text-[11px] text-slate-600">Compound</label>
+          <select id="labCompound" class="w-full mt-1 mb-3 px-3 py-2 rounded-lg border border-slate-300 bg-white text-sm"></select>
+          <div class="space-y-3 max-h-[62vh] overflow-auto pr-1" id="labSliders">
+            <!-- sliders injected -->
+          </div>
+          <label class="flex items-center gap-2 mt-3 mono text-[11px]"><input type="checkbox" id="labAuto" checked> Auto-run (debounced 250 ms)</label>
+          <button id="labRun" class="w-full mt-3 bg-[#0B1426] text-white rounded-lg py-2 text-sm font-semibold">Run</button>
+          <div class="mono text-[10px] text-slate-500 mt-2" id="labStatus"></div>
+          <div class="mt-3 p-2 rounded bg-sky-50 border border-sky-200 mono text-[11px]" id="labHipCalc">HIP calc —</div>
+        </div>
+        <div class="bg-white rounded-xl border border-slate-200 p-4" id="autoPanel">
+          <div class="mono text-[10px] tracking-widest uppercase text-teal-700 font-semibold mb-2">Auto-formulate — NSGA-II</div>
+          <div class="mono text-[11px] text-slate-600 mb-2">Find Pareto-optimal formulations (F vs dose-efficiency) using constrained NSGA-II. Server-side multiprocess.</div>
+          <button id="autoBtn" class="w-full bg-teal-700 text-white rounded-lg py-2.5 text-sm font-semibold hover:bg-teal-800 flex items-center justify-center gap-2"><span>★</span> Auto-formulate (NSGA-II)</button>
+          <div class="grid grid-cols-3 gap-2 mt-3">
+            <div><label class="mono text-[10px] text-slate-500">Space</label><select id="autoSpace" class="w-full mt-1 px-2 py-1.5 rounded border border-slate-300 mono text-[11px] bg-white"><option value="A">A (GRAS)</option><option value="full">Full</option><option value="B">B (denovo)</option><option value="search">Search</option></select></div>
+            <div><label class="mono text-[10px] text-slate-500">Pop</label><input id="autoPop" type="number" value="20" min="12" max="36" step="2" class="w-full mt-1 px-2 py-1.5 rounded border border-slate-300 mono text-[11px]"></div>
+            <div><label class="mono text-[10px] text-slate-500">Gen</label><input id="autoGen" type="number" value="12" min="5" max="30" step="1" class="w-full mt-1 px-2 py-1.5 rounded border border-slate-300 mono text-[11px]"></div>
+          </div>
+          <div id="autoProgress" class="mono text-[11px] text-slate-600 mt-3 hidden"></div>
+          <div id="autoBarWrap" class="w-full bg-slate-200 rounded h-2 mt-2 hidden"><div id="autoBar" class="bg-teal-700 h-2 rounded transition-all" style="width:0%"></div></div>
+          <div id="autoLogs" class="mono text-[10px] bg-slate-50 border border-slate-200 rounded p-2 max-h-[100px] overflow-auto mt-2 hidden"></div>
+          <div id="autoResults" class="mt-3 hidden"></div>
+        </div>
+      </div>
+      <div class="col-span-12 lg:col-span-8 space-y-4">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3" id="labKpis"></div>
+        <div class="bg-white rounded-xl border border-slate-200 p-4">
+          <div class="mono text-[10px] tracking-widest uppercase text-slate-500 mb-2">Breakdown (live)</div>
+          <div style="height:160px; position:relative"><canvas id="labBreakdown"></canvas></div>
+        </div>
+        <div class="grid grid-cols-12 gap-4">
+          <div class="col-span-12 lg:col-span-6 bg-white rounded-xl border border-slate-200 p-4">
+            <div class="mono text-[10px] tracking-widest uppercase text-slate-500 mb-2">F vs dose (lab formulation)</div>
+            <div style="height:200px; position:relative"><canvas id="labDoseChart"></canvas></div>
+          </div>
+          <div class="col-span-12 lg:col-span-6 bg-white rounded-xl border border-slate-200 p-4">
+            <div class="mono text-[10px] tracking-widest uppercase text-slate-500 mb-2">F vs m_HIP sweep (other excipients frozen)</div>
+            <div style="height:200px; position:relative"><canvas id="labHipChart"></canvas></div>
+          </div>
+        </div>
+        <div class="bg-white rounded-xl border border-slate-200 p-3">
+          <div class="mono text-[10px] tracking-widest uppercase text-slate-500 mb-1">Formulation JSON (editable — copy for API)</div>
+          <pre class="mono text-[11px] bg-slate-50 border border-slate-200 rounded p-2 max-h-[200px] overflow-auto" id="labJson"></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 BATCH -->
+  <section id="view-batch" class="view hidden">
+    <div class="bg-white rounded-xl border border-slate-200 p-4">
+      <div class="flex items-center justify-between gap-3 flex-wrap">
+        <div class="mono text-[10px] tracking-widest uppercase text-teal-700 font-semibold">Batch / Compare</div>
+        <div class="flex gap-2">
+          <button id="batchAddRow" class="mono text-[11px] px-3 py-1.5 rounded border border-slate-300 hover:bg-slate-50">+ Add row</button>
+          <button id="batchRun" class="mono text-[11px] px-4 py-1.5 rounded bg-[#0B1426] text-white">Run batch</button>
+          <button id="batchExport" class="mono text-[11px] px-3 py-1.5 rounded border border-slate-300">Export CSV</button>
+        </div>
+      </div>
+      <div class="overflow-auto mt-3">
+        <table class="w-full text-sm" id="batchTable">
+          <thead><tr class="mono text-[10px] tracking-widest uppercase text-slate-500"><th class="text-left p-2">#</th><th class="text-left p-2">Compound</th><th class="text-left p-2">Formulation</th><th class="text-left p-2">Dose</th><th class="text-left p-2">m_HIP</th><th class="text-left p-2">Result F%</th><th class="text-left p-2">Cmax</th><th class="text-left p-2"></th></tr></thead>
+          <tbody id="batchTbody"></tbody>
+        </table>
+      </div>
+      <div class="mono text-[11px] text-slate-500 mt-2" id="batchStatus"></div>
+      <div style="height:200px; position:relative" class="mt-4"><canvas id="batchChart"></canvas></div>
+    </div>
+  </section>
+
+  <!-- 4 OPTIMIZE -->
+  <section id="view-optimize" class="view hidden">
+    <div class="grid grid-cols-12 gap-4">
+      <div class="col-span-12 lg:col-span-5 bg-white rounded-xl border border-slate-200 p-4">
+        <div class="mono text-[10px] tracking-widest uppercase text-teal-700 font-semibold mb-2">Optimization — precomputed fronts</div>
+        <div class="flex gap-2 mb-3">
+          <button data-space="A" class="spaceBtn mono text-[11px] px-3 py-1.5 rounded bg-[#0B1426] text-white">Space A (GRAS)</button>
+          <button data-space="B" class="spaceBtn mono text-[11px] px-3 py-1.5 rounded border border-slate-300">Space B (denovo)</button>
+          <button data-space="full" class="spaceBtn mono text-[11px] px-3 py-1.5 rounded border border-slate-300">Full</button>
+        </div>
+        <div class="mono text-[11px] text-slate-700 space-y-1" id="optInfo"></div>
+        <pre class="mono text-[11px] bg-slate-50 border border-slate-200 rounded p-2 max-h-[260px] overflow-auto mt-3" id="optJson"></pre>
+      </div>
+      <div class="col-span-12 lg:col-span-7 bg-white rounded-xl border border-slate-200 p-4">
+        <div class="mono text-[10px] tracking-widest uppercase text-slate-500 mb-2">Pareto concept (F vs formulation complexity)</div>
+        <div class="mono text-[11px] text-slate-600 mb-2">Space A: Conventional excipients (C10, Labrasol, TPGS, NaCDC, PIP, chitosan, enteric) → <b>18.62% F</b>. Space B is theoretical (denovo) — not shown in poster.</div>
+        <div style="height:240px; position:relative"><canvas id="optChart"></canvas></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 VALIDATION -->
+  <section id="view-validate" class="view hidden">
+    <div class="grid grid-cols-12 gap-4">
+      <div class="col-span-12 lg:col-span-8 bg-white rounded-xl border border-slate-200 p-4">
+        <div class="flex items-center justify-between">
+          <div class="mono text-[10px] tracking-widest uppercase text-teal-700 font-semibold">External benchmark — 14 BCS III drugs</div>
+          <button id="validateRun" class="mono text-[11px] px-3 py-1.5 rounded bg-[#0B1426] text-white">Re-run validation</button>
+        </div>
+        <div style="height:280px; position:relative" class="mt-3"><canvas id="valScatter"></canvas></div>
+        <div class="mono text-[11px] text-slate-500 mt-2">Dashed = identity. Mechanistic constraints prevent compensating misspecification via fitting.</div>
+      </div>
+      <div class="col-span-12 lg:col-span-4 space-y-4">
+        <div class="bg-white rounded-xl border border-slate-200 p-4">
+          <div class="mono text-[10px] tracking-widest uppercase text-slate-500 mb-2">Metrics</div>
+          <div class="grid grid-cols-2 gap-3 mono text-[11px]" id="valMetrics"></div>
+        </div>
+        <div class="bg-white rounded-xl border border-slate-200 p-4">
+          <div class="mono text-[10px] tracking-widest uppercase text-slate-500 mb-2">Details</div>
+          <div class="overflow-auto max-h-[360px]">
+            <table class="w-full mono text-[11px]" id="valTable"><thead><tr class="text-slate-500"><th class="text-left p-1">Drug</th><th class="text-right p-1">Obs</th><th class="text-right p-1">Pred</th><th class="text-right p-1">Δpp</th></tr></thead><tbody></tbody></table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 CONFIG -->
+  <section id="view-config" class="view hidden">
+    <div class="grid grid-cols-12 gap-4">
+      <div class="col-span-12 lg:col-span-4 bg-white rounded-xl border border-slate-200 p-4">
+        <div class="mono text-[10px] tracking-widest uppercase text-teal-700 font-semibold mb-2">Configs (9 files, strict schemas)</div>
+        <div class="space-y-1" id="cfgList"></div>
+        <div class="mono text-[10px] text-slate-500 mt-3">All JSON validated with <code>extra=forbid</code>. Single source of truth: <code>configs/*.json</code></div>
+      </div>
+      <div class="col-span-12 lg:col-span-8 bg-white rounded-xl border border-slate-200 p-4">
+        <div class="flex items-center justify-between">
+          <div class="mono text-[11px] font-semibold" id="cfgTitle">Select a config</div>
+          <button id="cfgCopy" class="mono text-[11px] px-3 py-1 rounded border border-slate-300">Copy JSON</button>
+        </div>
+        <pre class="mono text-[11px] bg-slate-50 border border-slate-200 rounded p-3 max-h-[600px] overflow-auto mt-3" id="cfgJson">—</pre>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="max-w-[1440px] mx-auto px-5 py-4 mono text-[10px] text-slate-500 flex justify-between gap-4">
+  <span>BCS III NAVIGATOR v0.1 • Mechanistically structured; selectively calibrated • mass-balance &lt; 1e-10 • English • Single port</span>
+  <span id="footerStats"></span>
+</footer>
+
+<script>
+// ---------- helpers ----------
+const $ = s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+let compounds=[], formulations=[];
+let breakdownChart, labBreakdown, labDoseChart, labHipChart, batchChart, valScatter, optChart;
+
+function debounce(fn,ms){let t;return (...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),ms)}}
+
+async function api(path, opts={}){
+  const r=await fetch(path, opts);
+  if(!r.ok){ const txt=await r.text(); throw new Error(txt.slice(0,1200)); }
+  return r.json();
+}
+function fmtPct(x){return (x*100).toFixed(2)+"%";}
+function kpiCard(label, value, sub){
+  return `<div class="bg-white rounded-xl border border-slate-200 p-3"><div class="mono text-[10px] tracking-widest uppercase text-slate-500">${label}</div><div class="serif text-[20px] font-semibold">${value}</div><div class="mono text-[11px] text-slate-500">${sub||""}</div></div>`;
+}
+function breakdownData(bd){
+  const keys=["trans","para","endo","oct","pept1","ent","sglt","oatp"];
+  const colors=["#0B1426","#0E7A6E","#38BDF8","#F59E0B","#EF4444","#8B5CF6","#10B981","#EC4899"];
+  return {keys, vals: keys.map(k=>bd[k]||0), colors};
+}
+function renderBreakdown(canvas, bd, dominant){
+  if(typeof Chart==='undefined'){ console.warn('Chart not loaded yet'); return; }
+  if(!canvas) return;
+  const {keys, vals, colors}=breakdownData(bd);
+  const ctx=canvas.getContext('2d');
+  if(!ctx) return;
+  const prev=typeof Chart.getChart==='function'? Chart.getChart(canvas):null;
+  if(prev) try{prev.destroy();}catch(e){}
+  return new Chart(ctx,{
+    type:'bar',
+    data:{labels:keys, datasets:[{data:vals, backgroundColor:colors, borderWidth:0}]},
+    options:{
+      indexAxis:'y', animation:false, plugins:{legend:{display:false}, tooltip:{callbacks:{label:c=> `${c.label}: ${(c.raw*100).toFixed(1)}%`}}},
+      scales:{x:{max:1, ticks:{callback:v=>(v*100).toFixed(0)+"%", font:{size:10}}, grid:{color:'#EEF2F7'}}, y:{grid:{display:false}, ticks:{font:{family:'JetBrains Mono', size:10}}}},
+      responsive:true, maintainAspectRatio:false
+    }
+  });
+}
+
+// ---------- health ----------
+async function checkHealth(){
+  try{ await api('/api/health'); $('#healthBadge').textContent='● online — single port'; $('#healthBadge').className='mono text-[10px] px-2 py-1 rounded bg-emerald-50 border border-emerald-200 text-emerald-700';}
+  catch{ $('#healthBadge').textContent='● offline'; $('#healthBadge').className='mono text-[10px] px-2 py-1 rounded bg-red-50 border border-red-200 text-red-700';}
+}
+
+// ---------- tabs ----------
+$$('.tab').forEach(b=>{
+  b.addEventListener('click',()=>{
+    $$('.tab').forEach(x=>{x.classList.remove('active','border-[#0B1426]','text-[#0B1426]','font-semibold'); x.classList.add('border-transparent','text-slate-500')});
+    b.classList.add('active','border-[#0B1426]','text-[#0B1426]','font-semibold'); b.classList.remove('border-transparent','text-slate-500');
+    const tab=b.dataset.tab;
+    $$('.view').forEach(v=>v.classList.add('hidden'));
+    $('#view-'+tab).classList.remove('hidden');
+    if(tab==='validate' && !valScatter) loadValidation();
+    if(tab==='config') loadCfgList();
+    if(tab==='optimize') loadOpt('A');
+  });
+});
+
+// ---------- load dropdowns ----------
+async function loadMeta(){
+  try{
+    compounds=await api('/api/compounds');
+    formulations=await api('/api/formulations');
+    const cOpts=compounds.map(c=>`<option value="${c.id}">${c.id} • ${c.mw} g/mol</option>`).join('');
+    const fOpts=formulations.map(f=>`<option value="${f.id}">${f.id} • ${f.dose_mg} mg • m_hip ${f.m_hip}</option>`).join('');
+    $('#predCompound').innerHTML=cOpts; $('#labCompound').innerHTML=cOpts;
+    $('#predForm').innerHTML=fOpts;
+    if(compounds.find(c=>c.id==='tobramycin')) $('#predCompound').value='tobramycin';
+    if(compounds.find(c=>c.id==='tobramycin')) $('#labCompound').value='tobramycin';
+    if(formulations.find(f=>f.id==='native')) $('#predForm').value='native';
+    $('#footerStats').textContent=`${compounds.length} compounds • ${formulations.length} formulations`;
+    $('#predStatus').textContent='Ready — select and run.';
+    buildLabSliders();
+    buildBatchRows(3);
+  }catch(e){
+    console.error('loadMeta failed', e);
+    $('#predStatus').textContent='Failed to load compounds/formulations: '+e.message;
+    $('#healthBadge').textContent='● load error — check /api/health';
+    $('#healthBadge').className='mono text-[10px] px-2 py-1 rounded bg-red-50 border border-red-200 text-red-700';
+    // show retry
+    $('#footerStats').textContent='Load failed: '+e.message.slice(0,120);
+  }
+}
+
+function getCompound(id){ return api('/api/compounds/'+id); }
+function getFormulation(id){ return api('/api/formulations/'+id); }
+
+// ---------- Predict ----------
+let lastPred=null;
+async function runPredict(){
+  const cid=$('#predCompound').value, fid=$('#predForm').value;
+  const dose=parseFloat($('#predDose').value)||500, hip=parseFloat($('#predHip').value)||1;
+  $('#predStatus').textContent='Running…';
+  try{
+    const c=await getCompound(cid);
+    let f=await getFormulation(fid);
+    f={...f, dose_mg:dose, m_hip:hip, id: f.id||fid};
+    const res=await api('/api/predict',{method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({compound:c, formulation:f})});
+    lastPred=res;
+    $('#predStatus').textContent=`Done • run ${res.run_id.slice(0,8)} • ${res.F_oral_pct}% F`;
+    const warnEl=$('#predWarnings');
+    if(res.warnings && res.warnings.length){ warnEl.textContent=res.warnings.join(' • '); warnEl.classList.remove('hidden'); } else warnEl.classList.add('hidden');
+    const kpis=[
+      kpiCard('F_oral', res.F_oral_pct+'%', `Fg ${res.Fg} • Fh ${res.Fh}`),
+      kpiCard('AUC', res.AUC, 'mg·h·L⁻¹'),
+      kpiCard('Cmax', res.Cmax, 'mg·L⁻¹'),
+      kpiCard('Mass balance', (res.mass_balance_mg).toExponential(1)+' mg', res.warnings.length?'⚠':'ok'),
+    ];
+    $('#predKpis').innerHTML=kpis.join('');
+    $('#predDominant').textContent='dominant: '+res.dominant;
+    breakdownChart=renderBreakdown($('#breakdownChart'), res.breakdown, res.dominant);
+    $('#breakdownLegend').innerHTML=Object.entries(res.breakdown).map(([k,v])=>`<span>${k} ${(v*100).toFixed(1)}%</span>`).join('');
+    $('#predPk').innerHTML=`<div><div class="mono text-[10px] text-slate-500">Fg</div><div class="mono text-sm">${res.Fg}</div></div><div><div class="mono text-[10px] text-slate-500">Fh</div><div class="mono text-sm">${res.Fh}</div></div><div><div class="mono text-[10px] text-slate-500">z / f_u</div><div class="mono text-sm">${res.z} / ${(res.f_unionized||0).toFixed(3)}</div></div>`;
+    $('#predMeta').textContent=`run_id ${res.run_id} • mass_balance ${res.mass_balance_mg}`;
+    $('#predTrace').textContent=JSON.stringify(res.trace, null, 2);
+  }catch(e){ $('#predStatus').textContent='Error: '+e.message.slice(0,400); }
+}
+$('#predRun').addEventListener('click', runPredict);
+function quickLoad(cid,fid){
+  $('#predCompound').value=cid; $('#predForm').value=fid.includes('normal')?'tobramycin_normal':fid;
+  if(fid==='tobramycin_normal') $('#predDose').value=1000;
+  runPredict();
+  // switch to lab for optimized?
+}
+
+// ---------- Lab ----------
+const labDefaults={dose_mg:500,m_hip:1,c10_mm:0,snac_mm:0,edta_mm:0,labrasol_mm:0,nacdc_mm:0,pip_mm:0,tpgs_mm:0,chitosan:0,enteric:0,k_release_h:10,lipid_frac:0,particle_nm:150,bile_mm:0,denovo_p_trans:1,denovo_p_para:1,denovo_mucus:1};
+let labState={...labDefaults};
+
+function buildLabSliders(){
+  const specs=[
+    ['m_hip','HIP m_HIP',1,32,0.5],
+    ['c10_mm','C10 (mM)',0,50,1],
+    ['snac_mm','SNAC (mM)',0,50,1],
+    ['edta_mm','EDTA (mM)',0,20,0.5],
+    ['labrasol_mm','Labrasol (mM)',0,30,1],
+    ['nacdc_mm','NaCDC (mM)',0,30,1],
+    ['pip_mm','Piperine (mM)',0,20,0.5],
+    ['tpgs_mm','TPGS (mM)',0,10,0.5],
+    ['chitosan','Chitosan',0,1,0.05],
+    ['enteric','Enteric',0,1,0.05],
+    ['k_release_h','k_release (h⁻¹)',0.5,10,0.5],
+    ['lipid_frac','Lipid frac',0,1,0.05],
+    ['particle_nm','Particle nm',0,500,10],
+    ['c12_mm','C12 (mM)',0,30,1],
+    ['bile_mm','Bile (mM)',0,20,1],
+  ];
+  // add c12 to defaults if missing
+  labState.c12_mm=0;
+  const html=specs.map(([k,label,min,max,step])=>{
+    const v=labState[k]??0;
+    return `<div><div class="flex justify-between mono text-[11px]"><span>${label}</span><span class="mono bg-slate-100 border border-slate-200 px-1.5 py-0.5 rounded" id="labVal-${k}">${v}</span></div><input type="range" id="lab-${k}" min="${min}" max="${max}" step="${step}" value="${v}" class="w-full"></div>`;
+  }).join('');
+  $('#labSliders').innerHTML=html;
+  specs.forEach(([k])=>{
+    $('#lab-'+k).addEventListener('input',e=>{
+      const v=parseFloat(e.target.value); labState[k]=v; $('#labVal-'+k).textContent=v;
+      if($('#labAuto').checked) debouncedLab();
+      updateLabHipCalc(); updateLabJson();
+    });
+  });
+  updateLabHipCalc(); updateLabJson();
+}
+function updateLabHipCalc(){
+  const dose=labState.dose_mg, m=labState.m_hip;
+  const mol=dose/467.52;
+  const cur=m>1? (mol*m*288.38).toFixed(0):0;
+  $('#labHipCalc').textContent=`HIP SDS mass @ m_HIP=${m}: ${cur} mg (1:1 ${(mol*288.38).toFixed(0)} mg • 2:1 ${(mol*2*288.38).toFixed(0)} mg • 5:1 ${(mol*5*288.38).toFixed(0)} mg) — dose ${dose} mg`;
+}
+function updateLabJson(){
+  const f={id:"lab", dose_mg:labState.dose_mg, m_hip:labState.m_hip, c10_mm:labState.c10_mm||0, snac_mm:labState.snac_mm||0, edta_mm:labState.edta_mm||0, labrasol_mm:labState.labrasol_mm||0, nacdc_mm:labState.nacdc_mm||0, pip_mm:labState.pip_mm||0, tpgs_mm:labState.tpgs_mm||0, chitosan:labState.chitosan||0, enteric:labState.enteric||0, k_release_h:labState.k_release_h||10, lipid_frac:labState.lipid_frac||0, particle_nm:labState.particle_nm||150, c12_mm:labState.c12_mm||0, bile_mm:labState.bile_mm||0};
+  $('#labJson').textContent=JSON.stringify(f,null,2);
+  return f;
+}
+async function runLab(){
+  const cid=$('#labCompound').value;
+  $('#labStatus').textContent='Running…';
+  try{
+    const c=await getCompound(cid);
+    const f=updateLabJson();
+    const res=await api('/api/predict',{method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({compound:c, formulation:f})});
+    $('#labStatus').textContent=`F ${res.F_oral_pct}% • Cmax ${res.Cmax} • ${res.dominant}`;
+    $('#labKpis').innerHTML=[
+      kpiCard('F_oral',res.F_oral_pct+'%','live'),
+      kpiCard('AUC',res.AUC,'mg·h·L⁻¹'),
+      kpiCard('Cmax',res.Cmax,'mg·L⁻¹'),
+      kpiCard('Dominant',res.dominant, Object.entries(res.breakdown).sort((a,b)=>b[1]-a[1])[0][0]+' '+(Object.entries(res.breakdown).sort((a,b)=>b[1]-a[1])[0][1]*100).toFixed(1)+'%')
+    ].join('');
+    labBreakdown=renderBreakdown($('#labBreakdown'), res.breakdown);
+    // dose sweep 250/500/1000
+    runLabDoseSweep(c,f);
+    runLabHipSweep(c,f);
+  }catch(e){ $('#labStatus').textContent='Error: '+e.message.slice(0,500);}
+}
+const debouncedLab=debounce(runLab,250);
+$('#labRun').addEventListener('click', runLab);
+
+async function runLabDoseSweep(baseC, baseF){
+  const doses=[250,500,750,1000,1500];
+  const results=[];
+  for(const d of doses){
+    const f={...baseF, dose_mg:d};
+    try{ const r=await api('/api/predict',{method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({compound:baseC, formulation:f})}); results.push(r.F_oral*100);}catch{ results.push(null);}
+  }
+  if(typeof Chart==='undefined') return;
+  const ctx=$('#labDoseChart').getContext('2d');
+  const prev=Chart.getChart($('#labDoseChart')); if(prev) try{prev.destroy();}catch(e){}
+  new Chart(ctx,{type:'line', data:{labels:doses.map(String), datasets:[{label:'F %', data:results, borderColor:'#0B1426', backgroundColor:'rgba(11,20,38,0.08)', tension:0.3, fill:true, pointRadius:3}]}, options:{plugins:{legend:{display:false}}, scales:{x:{title:{display:true,text:'Dose mg'}}, y:{title:{display:true,text:'F %'}}}}});
+}
+async function runLabHipSweep(baseC, baseF){
+  const hips=[1,2,4,8,16,32];
+  const results=[];
+  for(const h of hips){
+    const f={...baseF, m_hip:h};
+    try{ const r=await api('/api/predict',{method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({compound:baseC, formulation:f})}); results.push(r.F_oral*100);}catch{ results.push(null);}
+  }
+  if(typeof Chart==='undefined') return;
+  const ctx=$('#labHipChart').getContext('2d');
+  const prev2=Chart.getChart($('#labHipChart')); if(prev2) try{prev2.destroy();}catch(e){}
+  new Chart(ctx,{type:'line', data:{labels:hips.map(String), datasets:[{label:'F %', data:results, borderColor:'#0E7A6E', backgroundColor:'rgba(14,122,110,0.08)', tension:0.3, fill:true, pointRadius:3}]}, options:{plugins:{legend:{display:false}}, scales:{x:{title:{display:true,text:'m_HIP'}}, y:{title:{display:true,text:'F %'}}}}});
+}
+
+// ---------- Batch ----------
+let batchRows=[];
+function buildBatchRows(n){
+  batchRows=[];
+  for(let i=0;i<n;i++) batchRows.push({compound:'tobramycin', formulation: i===0?'native':'tobramycin_normal', dose:500, m_hip: i===0?1:31.6});
+  renderBatch();
+}
+function renderBatch(){
+  const tbody=$('#batchTbody');
+  tbody.innerHTML=batchRows.map((r,i)=>`
+    <tr class="border-b border-slate-100">
+      <td class="p-1 mono text-[11px]">${i+1}</td>
+      <td class="p-1"><select data-i="${i}" data-k="compound" class="batchSel mono text-[11px] px-2 py-1 rounded border border-slate-300">${compounds.map(c=>`<option value="${c.id}" ${c.id===r.compound?'selected':''}>${c.id}</option>`).join('')}</select></td>
+      <td class="p-1"><select data-i="${i}" data-k="formulation" class="batchSel mono text-[11px] px-2 py-1 rounded border border-slate-300">${formulations.map(f=>`<option value="${f.id}" ${f.id===r.formulation?'selected':''}>${f.id}</option>`).join('')}</select></td>
+      <td class="p-1"><input data-i="${i}" data-k="dose" type="number" value="${r.dose}" class="batchIn mono text-[11px] w-20 px-2 py-1 rounded border border-slate-300"></td>
+      <td class="p-1"><input data-i="${i}" data-k="m_hip" type="number" step="0.1" value="${r.m_hip}" class="batchIn mono text-[11px] w-20 px-2 py-1 rounded border border-slate-300"></td>
+      <td class="p-1 mono text-[11px]" id="batchRes-${i}">—</td>
+      <td class="p-1 mono text-[11px]" id="batchCmax-${i}">—</td>
+      <td class="p-1"><button data-i="${i}" class="batchDel mono text-[11px] px-2 py-1 rounded border border-red-200 text-red-600">×</button></td>
+    </tr>
+  `).join('');
+  $$('.batchSel').forEach(el=>el.addEventListener('change',e=>{ batchRows[+e.target.dataset.i][e.target.dataset.k]=e.target.value; }));
+  $$('.batchIn').forEach(el=>el.addEventListener('input',e=>{ batchRows[+e.target.dataset.i][e.target.dataset.k]=parseFloat(e.target.value)||0; }));
+  $$('.batchDel').forEach(el=>el.addEventListener('click',e=>{ batchRows.splice(+e.target.dataset.i,1); renderBatch(); }));
+}
+$('#batchAddRow').addEventListener('click',()=>{ batchRows.push({compound:'tobramycin', formulation:'native', dose:500, m_hip:1}); renderBatch(); });
+$('#batchRun').addEventListener('click', async()=>{
+  $('#batchStatus').textContent='Running batch…';
+  const pairs=[];
+  for(const r of batchRows){
+    const c=await getCompound(r.compound);
+    let f=await getFormulation(r.formulation);
+    f={...f, dose_mg:r.dose, m_hip:r.m_hip};
+    pairs.push({compound:c, formulation:f});
+  }
+  try{
+    const out=await api('/api/batch',{method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({pairs})});
+    out.forEach((o,i)=>{
+      if(o.ok){ $('#batchRes-'+i).textContent=o.result.F_oral_pct+'%'; $('#batchCmax-'+i).textContent=o.result.Cmax; } else { $('#batchRes-'+i).textContent='ERR'; }
+    });
+    $('#batchStatus').textContent=`Done ${out.length} pairs`;
+    // chart
+    const labels=batchRows.map((r,i)=>`${r.compound}/${r.formulation}`);
+    const vals=out.map(o=>o.ok? o.result.F_oral*100 : 0);
+    if(typeof Chart!=='undefined'){
+      const ctx=$('#batchChart').getContext('2d');
+      const prev=Chart.getChart($('#batchChart')); if(prev) try{prev.destroy();}catch(e){}
+      new Chart(ctx,{type:'bar', data:{labels, datasets:[{label:'F %', data:vals, backgroundColor:'#0B1426'}]}, options:{plugins:{legend:{display:false}}, scales:{y:{beginAtZero:true, title:{display:true,text:'F %'}}}}});
+    }
+  }catch(e){ $('#batchStatus').textContent='Error '+e.message.slice(0,500);}
+});
+$('#batchExport').addEventListener('click',()=>{
+  const rows=[['compound','formulation','dose','m_hip','F%','Cmax']];
+  batchRows.forEach((r,i)=>{
+    const f=$('#batchRes-'+i).textContent, c=$('#batchCmax-'+i).textContent;
+    rows.push([r.compound,r.formulation,r.dose,r.m_hip,f,c]);
+  });
+  const csv=rows.map(r=>r.join(',')).join('\n');
+  const blob=new Blob([csv],{type:'text/csv'}); const url=URL.createObjectURL(blob);
+  const a=document.createElement('a'); a.href=url; a.download='navigator_batch.csv'; a.click();
+});
+
+// ---------- Optimize ----------
+async function loadOpt(space){
+  $$('.spaceBtn').forEach(b=>{ b.className='spaceBtn mono text-[11px] px-3 py-1.5 rounded border border-slate-300'; if(b.dataset.space===space) b.className='spaceBtn mono text-[11px] px-3 py-1.5 rounded bg-[#0B1426] text-white'; });
+  try{
+    const j=await api('/api/optimization/front?space='+space);
+    const best=j.best;
+    $('#optInfo').innerHTML=`<div>Space <b>${space}</b> — best <b>${best.dose_mg} mg • m_HIP ${best.m_hip}</b></div><div class="mono text-[10px] text-slate-500">${Object.entries(best).filter(([k])=>k.includes('_mm')||k.includes('chitosan')||k.includes('enteric')).map(([k,v])=>k+':'+v).join(' • ')}</div>`;
+    $('#optJson').textContent=JSON.stringify(best,null,2);
+    // chart: show some synthetic pareto from precomputed all
+    const all=j.all||[best];
+    // use dose vs m_hip as proxy
+    if(typeof Chart!=='undefined'){
+      const ctx=$('#optChart').getContext('2d');
+      const prev=Chart.getChart($('#optChart')); if(prev) try{prev.destroy();}catch(e){}
+      new Chart(ctx,{type:'scatter', data:{datasets:[{label:'Optimized', data: all.map(x=>({x: x.dose_mg, y: (x.m_hip||1)*1.5})), backgroundColor:'#0E7A6E'}]}, options:{scales:{x:{title:{display:true,text:'Dose mg'}}, y:{title:{display:true,text:'m_HIP (proxy)'}}}, plugins:{legend:{display:false}}}});
+    }
+  }catch(e){ $('#optInfo').textContent='Error '+e.message.slice(0,500);}
+}
+$$('.spaceBtn').forEach(b=>b.addEventListener('click',()=>loadOpt(b.dataset.space)));
+
+// ---------- Validation ----------
+async function loadValidation(){
+  $('#validateRun').textContent='Running…';
+  try{
+    const j=await api('/api/validate');
+    $('#valMetrics').innerHTML=`<div><div class="text-slate-500">RMSE</div><div class="text-lg font-semibold">${j.rmse_pp} pp</div></div><div><div class="text-slate-500">R²</div><div class="text-lg font-semibold">${j.r2}</div></div><div><div class="text-slate-500">N</div><div class="text-lg font-semibold">${j.details.length}</div></div><div><div class="text-slate-500">Compounds</div><div class="mono text-[10px]">10 train • 4 holdout</div></div>`;
+    const tbody=$('#valTable tbody');
+    tbody.innerHTML=j.details.map(d=>`<tr class="border-b border-slate-100"><td class="p-1">${d.id}</td><td class="text-right p-1 mono">${(d.obs*100).toFixed(1)}%</td><td class="text-right p-1 mono">${(d.pred*100).toFixed(1)}%</td><td class="text-right p-1 mono ${Math.abs(d.err_pp)>10?'text-red-600':''}">${d.err_pp}pp</td></tr>`).join('');
+    // scatter
+    const pts=j.details.filter(d=>d.pred!==undefined).map(d=>({x:d.obs*100, y:d.pred*100}));
+    if(typeof Chart==='undefined'){ $('#valMetrics').textContent='Chart not loaded'; return; }
+    const ctx=$('#valScatter').getContext('2d');
+    if(valScatter) try{valScatter.destroy();}catch(e){}
+    valScatter=new Chart(ctx,{
+      type:'scatter',
+      data:{datasets:[
+        {label:'Observed vs Pred', data:pts, backgroundColor:'#0B1426', pointRadius:4},
+        {label:'Identity', data:[{x:0,y:0},{x:60,y:60}], type:'line', showLine:true, borderColor:'#CBD5E1', borderDash:[6,6], pointRadius:0, fill:false}
+      ]},
+      options:{scales:{x:{min:0,max:65, title:{display:true,text:'Observed F %'}}, y:{min:0,max:65, title:{display:true,text:'Predicted F %'}}}, plugins:{legend:{display:false}}}
+    });
+    $('#validateRun').textContent='Re-run validation';
+  }catch(e){ $('#valMetrics').textContent='Error '+e.message.slice(0,500); $('#validateRun').textContent='Re-run';}
+}
+$('#validateRun').addEventListener('click', loadValidation);
+
+// ---------- Auto-formulate ----------
+function applyFormulationToLab(form){
+  const map={
+    m_hip:'m_hip', hip:'m_hip',
+    c10_mm:'c10_mm', snac_mm:'snac_mm', edta_mm:'edta_mm',
+    labrasol_mm:'labrasol_mm', nacdc_mm:'nacdc_mm', pip_mm:'pip_mm', tpgs_mm:'tpgs_mm',
+    chitosan:'chitosan', enteric:'enteric', k_release_h:'k_release_h',
+    lipid_frac:'lipid_frac', particle_nm:'particle_nm', c12_mm:'c12_mm', bile_mm:'bile_mm',
+    c8_mm:'c12_mm', dose_mg:'dose_mg'
+  };
+  Object.entries(map).forEach(([src,dst])=>{
+    if(form[src]!==undefined) labState[dst]=form[src];
+  });
+  if(form.dose_mg) labState.dose_mg=form.dose_mg;
+  // update sliders UI
+  Object.keys(labState).forEach(k=>{
+    const el=document.getElementById('lab-'+k);
+    const valEl=document.getElementById('labVal-'+k);
+    if(el){ el.value=labState[k]; if(valEl) valEl.textContent=labState[k]; }
+  });
+  updateLabHipCalc(); updateLabJson();
+  // trigger lab run
+  runLab();
+  // switch to lab tab visual
+  document.querySelectorAll('.tab').forEach(x=>{x.classList.remove('active','border-[#0B1426]','text-[#0B1426]','font-semibold'); x.classList.add('border-transparent','text-slate-500')});
+  const labTab=document.querySelector('[data-tab=\"lab\"]');
+  if(labTab){ labTab.classList.add('active','border-[#0B1426]','text-[#0B1426]','font-semibold'); labTab.classList.remove('border-transparent','text-slate-500'); }
+  document.querySelectorAll('.view').forEach(v=>v.classList.add('hidden'));
+  document.getElementById('view-lab').classList.remove('hidden');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+let autoPoll=null;
+let autoJobId=null;
+
+async function startAutoFormulate(){
+  const btn=document.getElementById('autoBtn');
+  const compound=document.getElementById('labCompound').value || 'tobramycin';
+  const space=document.getElementById('autoSpace').value;
+  const pop=parseInt(document.getElementById('autoPop').value)||20;
+  const gen=parseInt(document.getElementById('autoGen').value)||12;
+  btn.disabled=true; btn.textContent='⏳ Queued…';
+  document.getElementById('autoProgress').classList.remove('hidden');
+  document.getElementById('autoBarWrap').classList.remove('hidden');
+  document.getElementById('autoLogs').classList.remove('hidden');
+  document.getElementById('autoResults').classList.add('hidden');
+  document.getElementById('autoProgress').textContent=`Starting NSGA-II for ${compound} • space ${space} • pop ${pop} gen ${gen} …`;
+  document.getElementById('autoBar').style.width='5%';
+  document.getElementById('autoLogs').textContent='Queued…';
+  try{
+    const r=await api('/api/auto-formulate',{method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({compound_id:compound, space, pop, gen})});
+    autoJobId=r.job_id;
+    document.getElementById('autoProgress').textContent=`Job ${autoJobId} running… (pop ${pop}×gen ${gen} ≈ ${pop*gen} evals ×120ms)`;
+    // poll every 1.2s
+    if(autoPoll) clearInterval(autoPoll);
+    autoPoll=setInterval(async()=>{
+      try{
+        const j=await api('/api/auto-formulate/'+autoJobId);
+        const p=j.progress||{gen:0,total:gen,best_F:0,elapsed:0};
+        const pct=Math.min(95, Math.round((p.gen/p.total)*100));
+        document.getElementById('autoBar').style.width=pct+'%';
+        document.getElementById('autoProgress').textContent=`Gen ${p.gen}/${p.total} • best F ${p.best_F}% • ${p.elapsed}s • ${j.status}`;
+        if(j.logs && j.logs.length) document.getElementById('autoLogs').textContent=j.logs.slice(-20).join('\n');
+        if(j.status==='done'){
+          clearInterval(autoPoll); autoPoll=null;
+          btn.disabled=false; btn.textContent='★ Auto-formulate (NSGA-II)';
+          document.getElementById('autoBar').style.width='100%';
+          document.getElementById('autoProgress').textContent=`Done in ${p.elapsed}s • ${j.result.n_front} Pareto solutions • best F ${j.result.front[0]?.F_pct}%`;
+          renderAutoResults(j.result);
+        } else if(j.status==='error'){
+          clearInterval(autoPoll); autoPoll=null;
+          btn.disabled=false; btn.textContent='★ Auto-formulate (NSGA-II)';
+          document.getElementById('autoProgress').textContent='Error: '+(j.error||'unknown');
+          document.getElementById('autoLogs').textContent=(j.traceback||j.error||'').slice(0,3000);
+        }
+      }catch(e){
+        console.error('poll failed', e);
+      }
+    }, 1200);
+  }catch(e){
+    btn.disabled=false; btn.textContent='★ Auto-formulate (NSGA-II)';
+    document.getElementById('autoProgress').textContent='Failed to start: '+e.message;
+  }
+}
+
+function renderAutoResults(result){
+  const div=document.getElementById('autoResults');
+  div.classList.remove('hidden');
+  if(!result.front || !result.front.length){
+    div.innerHTML='<div class=\"mono text-[11px] text-red-600\">No Pareto front returned.</div>';
+    return;
+  }
+  const rows=result.front.map((f,i)=>{
+    const form=f.formulation;
+    const genes=Object.entries(f).filter(([k,v])=> typeof v==='number' && v!==0).map(([k,v])=> `${k}:${typeof v==='number'?v.toFixed(1):v}`).slice(0,6).join(' ');
+    return `<tr class=\"border-b border-slate-100 hover:bg-slate-50\">
+      <td class=\"p-2 mono text-[11px]\">#${i+1}</td>
+      <td class=\"p-2 mono text-[11px] font-semibold text-teal-700\">${f.F_pct}%</td>
+      <td class=\"p-2 mono text-[11px]\">${f.eff?f.eff.toFixed(1)+'%':f.eff||''}</td>
+      <td class=\"p-2 mono text-[10px] text-slate-500\">${f.dominant||''}</td>
+      <td class=\"p-2 mono text-[10px] max-w-[180px] truncate\" title=\"${genes}\">${genes}</td>
+      <td class=\"p-2\"><button data-i=\"${i}\" class=\"autoLoadBtn mono text-[11px] px-2 py-1 rounded bg-[#0B1426] text-white hover:bg-slate-800\">Load</button></td>
+    </tr>`;
+  }).join('');
+  div.innerHTML=`
+    <div class=\"mono text-[10px] tracking-widest uppercase text-slate-500 mb-1\">Pareto front (${result.n_front} • ${result.space} • ${result.pop}×${result.gen})</div>
+    <div class=\"overflow-auto max-h-[320px] border border-slate-200 rounded\">
+      <table class=\"w-full mono text-[11px]\"><thead><tr class=\"text-slate-500 bg-slate-50\"><th class=\"text-left p-2\">#</th><th class=\"text-left p-2\">F</th><th class=\"text-left p-2\">Eff</th><th class=\"text-left p-2\">Dom</th><th class=\"text-left p-2\">Key genes</th><th></th></tr></thead><tbody>${rows}</tbody></table>
+    </div>
+    <div class=\"flex gap-2 mt-2\">
+      <button id=\"autoExport\" class=\"mono text-[11px] px-3 py-1 rounded border border-slate-300\">Export JSON</button>
+      <span class=\"mono text-[10px] text-slate-500 py-1\">Click Load to inject formulation into Lab sliders and auto-run.</span>
+    </div>`;
+  div.querySelectorAll('.autoLoadBtn').forEach(b=>{
+    b.addEventListener('click',()=>{
+      const f=result.front[parseInt(b.dataset.i)].formulation;
+      applyFormulationToLab(f);
+    });
+  });
+  const exp=document.getElementById('autoExport');
+  if(exp) exp.addEventListener('click',()=>{
+    const blob=new Blob([JSON.stringify(result,null,2)],{type:'application/json'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a'); a.href=url; a.download=`autopareto_${result.compound_id}_${result.space}.json`; a.click();
+  });
+}
+document.getElementById('autoBtn')?.addEventListener('click', startAutoFormulate);
+
+// ---------- Config ----------
+async function loadCfgList(){
+  const list=await api('/api/configs');
+  $('#cfgList').innerHTML=list.map(n=>`<button data-cfg="${n}" class="cfgBtn w-full text-left mono text-[11px] px-3 py-2 rounded border border-slate-200 hover:bg-slate-50">${n}</button>`).join('');
+  $$('.cfgBtn').forEach(b=>b.addEventListener('click', async()=>{
+    const n=b.dataset.cfg;
+    const j=await api('/api/configs/'+n);
+    $('#cfgTitle').textContent=n;
+    $('#cfgJson').textContent=JSON.stringify(j,null,2);
+  }));
+  if(list.includes('permeation.json')){ const j=await api('/api/configs/permeation.json'); $('#cfgTitle').textContent='permeation.json'; $('#cfgJson').textContent=JSON.stringify(j,null,2); }
+}
+$('#cfgCopy').addEventListener('click',()=>{ navigator.clipboard.writeText($('#cfgJson').textContent); $('#cfgCopy').textContent='Copied!'; setTimeout(()=>$('#cfgCopy').textContent='Copy JSON',1500); });
+
+// ---------- global error handler ----------
+window.addEventListener('error', e=>{
+  const el=document.getElementById('predStatus');
+  if(el) el.textContent='JS error: '+e.message;
+  console.error(e);
+});
+window.addEventListener('unhandledrejection', e=>{
+  const el=document.getElementById('predStatus');
+  if(el) el.textContent='Error: '+(e.reason?.message||e.reason);
+  console.error(e);
+});
+// ---------- init ----------
+checkHealth();
+loadMeta().then(()=>{
+  // only auto-run if dropdowns populated
+  if($('#predCompound').options.length>0 && $('#predForm').options.length>0) runPredict();
+}).catch(e=>{
+  console.error('init failed', e);
+  const el=document.getElementById('predStatus');
+  if(el) el.textContent='Init failed: '+e.message;
+});
+</script>
+</body>
+</html>

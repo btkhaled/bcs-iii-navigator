@@ -1,0 +1,11 @@
+{
+  "SMILES": "CC1(COC(C(C1NC)O)OC2C(CC(C(C2O)OC3C(CCC(O3)CN)N)N)N)O",
+  "name": "gentamicin",
+  "MW": 477.6,
+  "pKa": [5.7, 7.2, 8.0, 8.5, 9.0],
+  "logP": -2.8,
+  "Cs_mg_per_mL": 80,
+  "compound_type": "base",
+  "n_amine": 5,
+  "class": "aminoglycoside"
+}

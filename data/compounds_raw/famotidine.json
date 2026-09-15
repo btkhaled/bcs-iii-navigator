@@ -1,0 +1,11 @@
+{
+  "SMILES": "C1=C(N=C(S1)N=C(N)N)CSCCC(=NS(=O)(=O)N)N",
+  "name": "famotidine",
+  "MW": 337.4,
+  "pKa": [7.1],
+  "logP": -0.7,
+  "Cs_mg_per_mL": 10,
+  "compound_type": "base",
+  "n_amine": 3,
+  "class": "H2-blocker"
+}

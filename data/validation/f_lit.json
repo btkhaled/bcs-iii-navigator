@@ -1,0 +1,16 @@
+{
+  "tobramycin": 0.02,
+  "gentamicin": 0.02,
+  "amikacin": 0.01,
+  "colistin": 0.01,
+  "aztreonam": 0.01,
+  "vancomycin": 0.05,
+  "desmopressin": 0.002,
+  "metformin": 0.5,
+  "acyclovir": 0.18,
+  "atenolol": 0.5,
+  "cimetidine": 0.6,
+  "ranitidine": 0.5,
+  "famotidine": 0.4,
+  "fosfomycin": 0.35
+}

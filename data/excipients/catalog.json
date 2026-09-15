@@ -1,0 +1,14 @@
+{
+  "C10": {"type": "teer_opener", "mw": 194.0, "origin": "literature"},
+  "EDTA": {"type": "teer_opener", "mw": 292.0, "origin": "literature"},
+  "SNAC": {"type": "trans_chaperone", "mw": 301.0, "origin": "literature"},
+  "chitosan": {"type": "teer_opener_mucoadhesive", "mw": 50000.0, "origin": "literature"},
+  "SDS": {"type": "hip_counterion", "mw": 288.0, "origin": "literature"},
+  "Gelucire": {"type": "lipid", "mw": 1500.0, "origin": "literature"},
+  "Labrasol": {"type": "teer_opener", "mw": 400.0, "origin": "new_A", "desc": "caprylocaproyl polyoxylglycerides, surfactant TEER opener"},
+  "TPGS": {"type": "pgp_inhibitor", "mw": 1513.0, "origin": "new_A", "desc": "D-alpha-tocopheryl PEG succinate, P-gp inhibitor + solubilizer"},
+  "NaCDC": {"type": "teer_opener", "mw": 414.0, "origin": "new_A", "desc": "sodium chenodeoxycholate, bile salt TEER opener"},
+  "PIP": {"type": "trans_chaperone", "mw": 285.0, "origin": "new_A", "desc": "piperine, bioenhancer transcellular"},
+  "C8": {"type": "teer_opener", "mw": 144.0, "origin": "new_A"},
+  "C12": {"type": "teer_opener", "mw": 200.0, "origin": "new_A"}
+}

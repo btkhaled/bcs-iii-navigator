@@ -1,0 +1,11 @@
+{
+  "SMILES": "CC1C(C(=O)N1S(=O)(=O)O)NC(=O)C(=NOC(C)(C)C(=O)O)C2=CSC(=N2)N",
+  "name": "aztreonam",
+  "MW": 435.44,
+  "pKa": [1.7, 3.2, 7.5],
+  "logP": -1.02,
+  "Cs_mg_per_mL": 50,
+  "compound_type": "zwit",
+  "n_amine": 1,
+  "class": "beta-lactam"
+}

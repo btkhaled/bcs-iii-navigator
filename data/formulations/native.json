@@ -1,0 +1,22 @@
+{
+  "id": "native",
+  "dose_mg": 500.0,
+  "f_free": 1.0,
+  "m_hip": 1.0,
+  "hip_counterion": null,
+  "lipid_frac": 0.0,
+  "particle_nm": 0.0,
+  "zeta_mv": 0.0,
+  "c10_mm": 0.0,
+  "snac_mm": 0.0,
+  "edta_mm": 0.0,
+  "c8_mm": 0.0,
+  "c12_mm": 0.0,
+  "bile_mm": 0.0,
+  "chitosan": 0.0,
+  "polymer": null,
+  "k_release_h": 10.0,
+  "enteric": 0.0,
+  "enteric_ph_threshold": 5.5,
+  "pgp_inhibitor": 0.0
+}

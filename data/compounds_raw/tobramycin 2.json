@@ -1,0 +1,11 @@
+{
+  "SMILES": "C1C(C(C(C(C1N)OC2C(C(C(C(O2)CO)O)N)O)O)OC3C(CC(C(O3)CN)O)N)N",
+  "name": "Tobramycin",
+  "MW": 467.5,
+  "pKa": [6.7, 7.6, 7.7, 7.8, 9.1],
+  "logP": -6.2,
+  "Cs_mg_per_mL": 94.0,
+  "compound_type": "base",
+  "n_amine": 5,
+  "class": "aminoglycoside"
+}

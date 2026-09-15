@@ -1,0 +1,22 @@
+{
+  "id": "tobramycin_ode_01",
+  "dose_mg": 1000.0,
+  "f_free": 0.95,
+  "m_hip": 21.0,
+  "hip_counterion": "SDS",
+  "lipid_frac": 0.84,
+  "particle_nm": 264.0,
+  "zeta_mv": -12.0,
+  "c10_mm": 45.0,
+  "snac_mm": 28.0,
+  "edta_mm": 6.0,
+  "c8_mm": 0.0,
+  "c12_mm": 0.0,
+  "bile_mm": 0.0,
+  "chitosan": 0.51,
+  "polymer": "Eudragit",
+  "k_release_h": 1.72,
+  "enteric": 0.19,
+  "enteric_ph_threshold": 5.5,
+  "pgp_inhibitor": 0.0
+}

@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+*.egg
+.eggs/
+.venv/
+venv/
+env/
+.env
+*.pyo
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+# Numerics / OS
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+# Configs candidates (generated)
+configs/candidates/
+# Data generated (keep structure, ignore outputs)
+data/formulations/optimized/__pycache__/
+# Journals / local secrets
+*.key
+*.pem
+secrets.json
+.env.local
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+# Jupyter
+.ipynb_checkpoints/

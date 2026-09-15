@@ -1,0 +1,37 @@
+{
+  "id": "amikacin",
+  "mw": 585.6,
+  "logp": -3.1,
+  "tpsa": 331,
+  "hbd": 12,
+  "hba": 17,
+  "rotb": 10,
+  "aromatic_rings": 0,
+  "frac_sp3": 1.0,
+  "n_o_count": 18,
+  "formal_charge": 0.0,
+  "pkas": [
+    {
+      "type": "base",
+      "pka": 7.0
+    },
+    {
+      "type": "base",
+      "pka": 8.0
+    },
+    {
+      "type": "base",
+      "pka": 9.0
+    }
+  ],
+  "cs_mg_l": 100000.0,
+  "has_peptide_bond": false,
+  "is_biguanide": false,
+  "has_azote_base": false,
+  "is_polyol": false,
+  "fu_plasma": 0.95,
+  "clint_liver_ul_min_mg": 0.0,
+  "clint_gut_ul_min_mg": 0.0,
+  "vmax_override": {},
+  "km_override": {}
+}

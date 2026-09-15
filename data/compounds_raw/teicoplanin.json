@@ -1,0 +1,17 @@
+{
+  "SMILES": "CCCCCCCCCC(=O)NC1C(C(C(OC1OC2=C3C=C4C=C2OC5=C(C=C(C=C5)C(C6C(=O)NC(C7=C(C(=CC(=C7)O)OC8C(C(C(C(O8)CO)O)O)O)C9=C(C=CC(=C9)C(C(=O)N6)NC(=O)C4NC(=O)C1C2=CC(=CC(=C2)OC2=C(C=CC(=C2)C(C(=O)NC(CC2=CC(=C(O3)C=C2)Cl)C(=O)N1)N)O)O)O)C(=O)O)OC1C(C(C(C(O1)CO)O)O)NC(=O)C)Cl)CO)O)O",
+  "name": "teicoplanin",
+  "MW": 1880.0,
+  "pKa": [
+    2.8,
+    7.0,
+    9.0
+  ],
+  "logP": -1.5,
+  "Cs_mg_per_mL": 100,
+  "compound_type": "zwit",
+  "n_amine": 3,
+  "class": "glycopeptide",
+  "bcs_class": "III",
+  "bcs_notes": "Glycopeptide high solubility >100 mg/mL, low permeability - BCS III, correct."
+}

@@ -1,0 +1,14 @@
+{
+  "SMILES": "CCCCCCCCCC(=O)NC(CC1=CNC2=CC=CC=C21)C(=O)NC(CC(=O)N)C(=O)NC(CC(=O)O)C(=O)NC3C(OC(=O)C(NC(=O)C(NC(=O)C(NC(=O)CNC(=O)C(NC(=O)C(NC(=O)C(NC(=O)C(NC(=O)CNC3=O)CCCN)CC(=O)O)C)CC(=O)O)CO)C(C)CC(=O)O)CC(=O)C4=CC=CC=C4N)C",
+  "name": "daptomycin",
+  "MW": 1620.67,
+  "pKa": [3.5, 4.5],
+  "logP": -1.66,
+  "Cs_mg_per_mL": 1.0,
+  "compound_type": "acid",
+  "n_amine": 2,
+  "class": "lipopeptide",
+  "bcs_class": "IV (borderline III)",
+  "bcs_notes": "Lipopeptide amphiphilic: low solubility ~1 mg/mL (dose 500mg needs 500mL >250mL) + low permeability F<1%. Correctly BCS IV per Amidon. Retained in Navigator as negative control (no formulation benefit) with explicit borderline annotation; not counted as BCS III success case.",
+  "bcs_sources": ["CubicPharm BCS", "Benet BDDCS Class 4"]
+}

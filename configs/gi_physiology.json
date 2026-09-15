@@ -1,0 +1,87 @@
+{
+  "colon_transit_h": 18.0,
+  "gastric_emptying_h": 0.25,
+  "segments": [
+    {
+      "area_cm2": 30000.0,
+      "bile_mm": 8.0,
+      "expr": {
+        "BCRP": 0.8,
+        "ENT": 1.0,
+        "OATP2B1": 1.0,
+        "OCT3": 1.0,
+        "PEPT1": 1.5,
+        "PGP": 0.8,
+        "SGLT1": 1.5
+      },
+      "mucus_thickness_um": 50.0,
+      "name": "duodenum",
+      "ph": 6.0,
+      "radius_cm": 1.5,
+      "teer0": 80.0,
+      "transit_h": 0.25,
+      "volume_l": 0.05
+    },
+    {
+      "area_cm2": 150000.0,
+      "bile_mm": 5.0,
+      "expr": {
+        "BCRP": 1.0,
+        "ENT": 1.0,
+        "OATP2B1": 1.0,
+        "OCT3": 1.0,
+        "PEPT1": 1.0,
+        "PGP": 1.0,
+        "SGLT1": 1.0
+      },
+      "mucus_thickness_um": 100.0,
+      "name": "jejunum",
+      "ph": 6.5,
+      "radius_cm": 1.25,
+      "teer0": 60.0,
+      "transit_h": 1.5,
+      "volume_l": 0.2
+    },
+    {
+      "area_cm2": 120000.0,
+      "bile_mm": 3.0,
+      "expr": {
+        "BCRP": 1.2,
+        "ENT": 0.8,
+        "OATP2B1": 0.8,
+        "OCT3": 0.6,
+        "PEPT1": 0.5,
+        "PGP": 1.5,
+        "SGLT1": 0.4
+      },
+      "mucus_thickness_um": 150.0,
+      "name": "ileum",
+      "ph": 7.2,
+      "radius_cm": 1.0,
+      "teer0": 70.0,
+      "transit_h": 1.75,
+      "volume_l": 0.2
+    },
+    {
+      "area_cm2": 25000.0,
+      "bile_mm": 0.5,
+      "expr": {
+        "BCRP": 1.0,
+        "ENT": 0.3,
+        "OATP2B1": 0.3,
+        "OCT3": 0.3,
+        "PEPT1": 0.1,
+        "PGP": 1.2,
+        "SGLT1": 0.05
+      },
+      "fecal_bound": 0.8124799769410743,
+      "mucus_thickness_um": 300.0,
+      "name": "colon",
+      "ph": 6.8,
+      "radius_cm": 2.0,
+      "teer0": 120.0,
+      "transit_h": 18.0,
+      "volume_l": 0.15
+    }
+  ]
+}

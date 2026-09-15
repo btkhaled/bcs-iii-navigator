@@ -1,0 +1,37 @@
+{
+  "id": "vancomycin",
+  "mw": 1449.3,
+  "logp": -3.2,
+  "tpsa": 449,
+  "hbd": 12,
+  "hba": 22,
+  "rotb": 10,
+  "aromatic_rings": 5,
+  "frac_sp3": 0.35,
+  "n_o_count": 33,
+  "formal_charge": 0.0,
+  "pkas": [
+    {
+      "type": "acid",
+      "pka": 2.8
+    },
+    {
+      "type": "base",
+      "pka": 7.7
+    },
+    {
+      "type": "base",
+      "pka": 8.5
+    }
+  ],
+  "cs_mg_l": 100000.0,
+  "has_peptide_bond": true,
+  "is_biguanide": false,
+  "has_azote_base": false,
+  "is_polyol": false,
+  "fu_plasma": 0.5,
+  "clint_liver_ul_min_mg": 0.0,
+  "clint_gut_ul_min_mg": 0.0,
+  "vmax_override": {},
+  "km_override": {}
+}

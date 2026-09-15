@@ -7,7 +7,6 @@
 [![Version](https://img.shields.io/badge/version-0.1.0-0B1426)](https://github.com/btkhaled/bcs-iii-navigator)
 [![Python](https://img.shields.io/badge/python-3.11%2B-0E7A6E)](https://www.python.org)
 [![PBPK](https://img.shields.io/badge/model-mechanistic-informational)](https://github.com/btkhaled/bcs-iii-navigator)
-[![Private](https://img.shields.io/badge/visibility-private-lightgrey)](https://github.com/btkhaled/bcs-iii-navigator)
 
 **Author:** Khaled Ben Taieb — bt.khaled@gmail.com  
 **Poster:** [`poster.html`](./poster.html) — A4 scientific poster (print-ready)
